@@ -166,7 +166,7 @@ log_check "检查 log.md 格式..."
 if [ -f "wiki/log.md" ]; then
     LAST_ENTRY=$(grep -m1 "^## \[" wiki/log.md 2>/dev/null || echo "")
     if [ -n "$LAST_ENTRY" ]; then
-        if [[ "$LAST_ENTRY" =~ ^## \[202[0-9]-[0-9]{2}-[0-9]{2}\] ]]; then
+        if [[ "$LAST_ENTRY" =~ ^##\ \[202[0-9]-[0-9][0-9]-[0-9][0-9]\] ]]; then
             log_check "  ✓ log.md 格式正确"
         else
             log_warn "  ✗ log.md 最近条目格式可能不正确: $LAST_ENTRY"

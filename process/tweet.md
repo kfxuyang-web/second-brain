@@ -2,6 +2,20 @@
 
 **适用**：推文、微博、灵感碎片、想法、引用
 
+## Twitter/X 专属抓取（优先使用 Jina Reader）
+
+Twitter 内容必须用 Jina Reader 抓取：
+
+```
+https://r.jina.ai/https://twitter.com/user/status/123456
+```
+
+**步骤：**
+1. 提取推文 URL
+2. 前缀 `https://r.jina.ai/`
+3. `curl -L -s` 获取内容
+4. 内容存入 `raw/tweets/`
+
 ## Wiki 格式
 
 ```markdown

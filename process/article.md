@@ -12,6 +12,28 @@ yt-dlp --write-auto-sub <url>          # YouTube/B站字幕
 agent-reach --read <url>               # 公众号/小红书
 ```
 
+## Twitter/X 专属抓取（优先使用 Jina Reader）
+
+Twitter 内容必须用 Jina Reader 抓取，格式：
+
+```
+https://r.jina.ai/https://twitter.com/user/status/123456
+```
+
+**步骤：**
+1. 提取推文 URL：`https://twitter.com/user/status/123456`
+2. 前缀 `https://r.jina.ai/`：`https://r.jina.ai/https://twitter.com/user/status/123456`
+3. 用 `curl -L -s` 获取内容
+4. 内容存入 `raw/tweets/`（不是 `raw/articles/`）
+
+**示例：**
+```bash
+URL="https://twitter.com/user/status/123456"
+JINA_URL="https://r.jina.ai/$URL"
+CONTENT=$(curl -L -s "$JINA_URL")
+echo "$CONTENT" > "raw/tweets/$(date +%Y-%m-%d)-tweet-$(echo $URL | grep -o '[0-9]*$').txt"
+```
+
 ## Wiki 格式
 
 ```markdown
