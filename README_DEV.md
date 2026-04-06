@@ -1,193 +1,193 @@
 # Second Brain — Developer Guide
 
-> 给需要手动安装或贡献代码的开发者的详细说明。
+> Detailed instructions for developers who want to manually install or contribute.
 
 ---
 
-## 手动安装
+## Manual Install
 
-### 克隆仓库
+### Clone the Repo
 
 ```bash
 git clone https://github.com/zhiwehu/second-brain.git
 cd second-brain
 ```
 
-### 运行安装脚本
+### Run Setup Script
 
 ```bash
 ./setup.sh
-./setup.sh --fix  # 自动修复目录结构等问题
+./setup.sh --fix  # auto-fix directory structure issues
 ```
 
-安装脚本会：
-- 检查依赖工具
-- 创建 `wiki/` 和 `raw/` 目录结构
-- 设置工具脚本权限
-- 注入第二大脑引用到 OpenClaw 全局 MEMORY.md
-- 初始化 Git 仓库（可选）
+The setup script will:
+- Check for required tools
+- Create `wiki/` and `raw/` directory structure
+- Set executable permissions on tools
+- Inject Second Brain reference into OpenClaw global MEMORY.md
+- Initialize Git repo (optional)
 
-### 启动第二大脑
+### Launch Second Brain
 
-**在 Claude Code 中：**
+**In Claude Code:**
 
 ```bash
 cd second-brain
 claude
-# Claude Code 会自动读取 CLAUDE.md
+# Claude Code automatically reads CLAUDE.md
 ```
 
-**在 OpenClaw 中：**
+**In OpenClaw:**
 
 ```bash
 cd second-brain
 openclaw
-# OpenClaw 会自动读取 CLAUDE.md
+# OpenClaw automatically reads CLAUDE.md
 ```
 
-**手动复制粘贴：**
+**Manual Copy & Paste:**
 
-1. 打开 `MEMORY.md`，复制全部内容
-2. 粘贴给 AI："请用这个 MEMORY.md 作为参考处理我的内容"
+1. Open `MEMORY.md` and copy all content
+2. Paste to AI: "Please use this MEMORY.md as reference to process my content"
 
 ---
 
-## 目录结构详解
+## Directory Structure
 
 ```
 second-brain/
-├── CLAUDE.md              # AI 配置（Claude Code/OpenClaw 专用）
-├── MEMORY.md              # Layer 1: 入口路由（通用）
-├── reference.md           # Layer 2: LLM Wiki + PARA 规则
+├── CLAUDE.md              # AI config (Claude Code/OpenClaw specific)
+├── MEMORY.md              # Layer 1: Entry router (universal)
+├── reference.md           # Layer 2: LLM Wiki + PARA rules
 │
-├── wiki/                  # 知识库（用户数据，不推送到 Git）
-│   ├── index.md         # 内容索引（AI 每次摄入时更新）
-│   ├── log.md          # 操作日志（追加制）
-│   ├── projects/       # PARA: Projects（有目标+截止）
-│   ├── areas/          # PARA: Areas（持续责任）
-│   ├── resources/      # PARA: Resources（感兴趣暂无行动）
-│   └── archives/        # PARA: Archives（已完成/放弃）
+├── wiki/                  # Knowledge base (user data, not pushed to Git)
+│   ├── index.md         # Content index (updated by AI on each ingest)
+│   ├── log.md          # Operation log (append-only)
+│   ├── projects/       # PARA: Projects (goals + deadlines)
+│   ├── areas/          # PARA: Areas (ongoing responsibilities)
+│   ├── resources/      # PARA: Resources (interested, no action yet)
+│   └── archives/        # PARA: Archives (completed/abandoned)
 │
-├── raw/                   # 原始素材（用户数据，不推送到 Git）
-│   ├── articles/       # 网页文章
-│   ├── tweets/          # 推文
-│   ├── voice/           # 语音
-│   ├── images/          # 图片
-│   └── files/           # 文档
+├── raw/                   # Raw materials (user data, not pushed to Git)
+│   ├── articles/       # Web articles
+│   ├── tweets/          # Tweets
+│   ├── voice/           # Voice memos
+│   ├── images/          # Images
+│   └── files/           # Documents
 │
-├── process/              # Layer 3: 内容类型处理器
-│   ├── article.md       # 网页文章
-│   ├── tweet.md         # 推文/短内容
-│   ├── voice.md         # 语音
-│   ├── image.md         # 图片
-│   ├── file.md          # 文件
-│   ├── chat.md          # 聊天记录
-│   └── task.md          # 日程/TODO
+├── process/              # Layer 3: Content type processors
+│   ├── article.md       # Web articles
+│   ├── tweet.md         # Tweets/short content
+│   ├── voice.md         # Voice
+│   ├── image.md         # Images
+│   ├── file.md          # Files
+│   ├── chat.md          # Chat logs
+│   └── task.md          # Schedules/TODOs
 │
-├── tools/               # 命令行工具
-│   ├── doctor.sh        # 健康检查 + 自动修复
-│   ├── backup.sh        # raw/ 备份
-│   ├── voice_to_text.sh # 语音转文字（SenseVoice/Whisper）
-│   ├── extract_exif.sh  # 图片 EXIF 提取
-│   ├── extract_file_meta.sh # 文件元数据
-│   ├── fetch_url.sh    # 网页抓取
-│   ├── fetch_content.sh # 智能内容获取
-│   └── extract_pdf_text.sh # PDF 文本提取
+├── tools/               # CLI utilities
+│   ├── doctor.sh        # Health check + auto-fix
+│   ├── backup.sh        # raw/ backup
+│   ├── voice_to_text.sh # Speech-to-text (SenseVoice/Whisper)
+│   ├── extract_exif.sh  # Image EXIF extraction
+│   ├── extract_file_meta.sh # File metadata
+│   ├── fetch_url.sh    # Web page fetch
+│   ├── fetch_content.sh # Smart content fetch
+│   └── extract_pdf_text.sh # PDF text extraction
 │
 └── .claude/
-    └── commands/         # OpenClaw 命令参考
+    └── commands/         # OpenClaw command reference
 ```
 
 ---
 
-## 三层 Memory 架构
+## 3-Layer Memory Architecture
 
 ```
-Layer 1: MEMORY.md（入口路由）
-    ↓ 判断类型
-Layer 2: reference.md（PARA 规则 + Wiki 格式）
-    ↓ 按类型分发
-Layer 3: process/*.md（具体处理器）
-    ↓ 写入
-wiki/{para}/（知识库）
+Layer 1: MEMORY.md (entry router)
+    ↓ detect type
+Layer 2: reference.md (PARA rules + Wiki format)
+    ↓ dispatch by type
+Layer 3: process/*.md (specific processors)
+    ↓ write
+wiki/{para}/ (knowledge base)
 ```
 
-详见 `reference.md`。
+See `reference.md` for details.
 
 ---
 
-## PARA 方法
+## PARA Method
 
-| 类型 | 定义 | 示例 |
-|------|------|------|
-| **Projects** | 有目标 + 截止日期 | 产品发布、学习计划 |
-| **Areas** | 持续责任，无截止日期 | 健康、财务、职业发展 |
-| **Resources** | 感兴趣，暂无行动 | 研究主题、待读文章 |
-| **Archives** | 已完成/放弃/休眠 | 旧项目、历史资料 |
+| Type | Definition | Examples |
+|------|------------|----------|
+| **Projects** | Goals + deadlines | Product launch, learning plan |
+| **Areas** | Ongoing responsibilities, no deadline | Health, finances, career |
+| **Resources** | Interested, no action yet | Research topics, articles to read |
+| **Archives** | Completed/abandoned/dormant | Old projects, historical data |
 
 ---
 
-## 升级
+## Upgrade
 
 ```bash
 ./upgrade.sh
 ```
 
-upgrade.sh 会：
-1. 检查未提交的更改并 stash
-2. `git fetch + pull --rebase` 获取最新代码
-3. 恢复 stash
-4. 重新注入 OpenClaw MEMORY.md
+upgrade.sh will:
+1. Stash any uncommitted changes
+2. `git fetch + pull --rebase` to get latest code
+3. Pop stash
+4. Re-inject OpenClaw MEMORY.md
 
-**重要：** `wiki/` 和 `raw/` 目录被 .gitignore 忽略，用户的知识库数据不会被覆盖。
+**Important:** `wiki/` and `raw/` are in .gitignore — user data is never overwritten.
 
 ---
 
-## 工具详情
+## Tool Details
 
-### 语音转文字
+### Speech to Text
 
 ```bash
 ./tools/voice_to_text.sh recording.m4a transcript.txt
 ```
 
-支持：SenseVoice（Ollama）、Whisper
+Supports: SenseVoice (Ollama), Whisper
 
-### 备份
+### Backup
 
 ```bash
-./tools/backup.sh                      # 备份到 ~/second-brain-backups
-./tools/backup.sh /path/to/backups     # 备份到指定位置
+./tools/backup.sh                      # Backup to ~/second-brain-backups
+./tools/backup.sh /path/to/backups     # Backup to specified location
 
-# 定时备份（每周日凌晨2点）
+# Cron backup (every Sunday 2am)
 (crontab -l 2>/dev/null; echo "0 2 * * 0 cd $PWD && ./tools/backup.sh") | crontab -
 ```
 
-### 健康检查
+### Health Check
 
 ```bash
-./tools/doctor.sh        # 检查
-./tools/doctor.sh --fix  # 自动修复
+./tools/doctor.sh        # Check
+./tools/doctor.sh --fix  # Auto-fix
 ```
 
 ---
 
-## 内容摄入流程
+## Content Ingest Flow
 
-当用户说"帮我存到第二大脑"时：
+When user says "save to second brain":
 
-1. **判断类型** → 根据内容特征判断（推文/文章/图片等）
-2. **获取内容** → 抓取 URL / 保存附件 / 转录音频
-3. **生成摘要** → LLM 生成 50 字摘要 + 核心要点
-4. **PARA 分类** → 判断属于 Projects/Areas/Resources/Archives
-5. **写入 wiki** → `wiki/{para}/YYYY-MM-DD-slug.md`
-6. **交叉链接** → 搜索 wiki 已有内容，添加链接
-7. **更新 index** → 在 `wiki/index.md` 添加条目
-8. **记录 log** → 在 `wiki/log.md` 顶部追加条目
+1. **Detect type** → tweet/article/image/etc
+2. **Fetch content** → URL / attachment / audio transcription
+3. **Generate summary** → LLM generates 50-char summary + key points
+4. **PARA classification** → Projects/Areas/Resources/Archives
+5. **Write to wiki** → `wiki/{para}/YYYY-MM-DD-slug.md`
+6. **Cross-link** → Search existing wiki content, add links
+7. **Update index** → Add entry to `wiki/index.md`
+8. **Log** → Prepend entry to `wiki/log.md`
 
 ---
 
-## 理论参考
+## Theoretical References
 
 - [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
 - [PARA Method — Forte Labs](https://fortelabs.com/blog/para/)

@@ -1,125 +1,136 @@
-# Second Brain — 第二大脑
+# Second Brain
 
-> 用 AI 自动维护你的知识库。说一句话，AI 帮你收藏、整理、分类。
+> Your personal knowledge base, maintained by AI. Just say what you want to save — AI handles the rest.
 
----
-
-## 安装（一句话搞定）
-
-**在 OpenClaw 或 Claude Code 中说：**
-
-```
-请帮我从 https://github.com/zhiwehu/second-brain 安装第二大脑
-```
-
-AI 会自动：
-1. 克隆仓库
-2. 运行安装脚本
-3. 注入到你的 AI 系统
-4. 完成
+**Twitter:** [@zhiwehu](https://twitter.com/zhiwehu)
 
 ---
 
-## 使用方法
+## Install (One Command)
 
-安装好后，直接对 AI 说：
+**In OpenClaw or Claude Code, just say:**
 
 ```
-请帮我把这段话存入第二大脑：[内容]
-请保存这个链接到第二大脑：[URL]
-请在第二大脑里搜索 AI 相关内容
-帮我把那张截图存到第二大脑
-把今天的会议记录存入第二大脑
+Please install Second Brain from https://github.com/zhiwehu/second-brain
 ```
 
-**支持的内容类型：**
-- 推文 / 灵感 / 想法
-- 文章 / 链接
-- 截图 / 图片
-- 语音备忘
-- PDF / 文档
-- 聊天记录 / 会议记录
-- 日程 / TODO
-
-**AI 会自动：**
-- 获取内容
-- 判断类型（推文/文章/图片等）
-- 按 PARA 分类（Projects/Areas/Resources/Archives）
-- 写入知识库
-- 更新索引和日志
+AI will automatically:
+1. Clone the repo
+2. Run the setup script
+3. Inject into your AI system
+4. Done
 
 ---
 
-## 升级
+## How to Use
+
+After installation, just talk to AI:
 
 ```
-请帮我升级第二大脑
+Save this to my second brain: [content]
+Save this link to second brain: [URL]
+Search my second brain for AI related content
+Save that screenshot to second brain
+Save today's meeting notes to second brain
+```
+
+**Supported content types:**
+- Tweets / thoughts / ideas
+- Articles / links
+- Screenshots / images
+- Voice memos
+- PDFs / documents
+- Chat logs / meeting notes
+- Schedules / TODOs
+
+**AI automatically:**
+- Fetches content
+- Detects type (tweet/article/image/etc)
+- Classifies using PARA (Projects/Areas/Resources/Archives)
+- Writes to knowledge base
+- Updates index and log
+
+---
+
+## Upgrade
+
+```
+Please upgrade my second brain
 ```
 
 ---
 
-## 健康检查
+## Health Check
 
 ```
-请运行第二大脑的健康检查
+Run the second brain health check
 ```
 
-或手动运行：
+Or manually:
 
 ```bash
 ./tools/doctor.sh
-./tools/doctor.sh --fix  # 自动修复问题
+./tools/doctor.sh --fix  # auto-fix issues
 ```
 
 ---
 
-## 目录结构
+## Directory Structure
 
 ```
 second-brain/
-├── wiki/           # 你的所有知识（按 PARA 分类）
-│   ├── projects/   # 正在做的项目
-│   ├── areas/     # 持续关注的事
-│   ├── resources/ # 感兴趣的内容
-│   └── archives/  # 已完成/归档的
-├── raw/           # 原始素材（图片/语音/文件等）
-└── tools/         # 工具（健康检查/备份等）
+├── wiki/           # Your knowledge (organized by PARA)
+│   ├── projects/   # Active projects
+│   ├── areas/     # Ongoing responsibilities
+│   ├── resources/ # Interesting topics
+│   └── archives/  # Completed/archived
+├── raw/           # Raw materials (images/audio/files)
+└── tools/         # Utilities (health check/backup/etc)
 ```
 
 ---
 
-## 可选工具
+## Optional Tools
 
-安装以下工具可获得完整功能：
+Install these for full functionality:
 
-| 工具 | 功能 | 安装 |
-|------|------|------|
-| Whisper | 语音转文字 | `pip3 install whisper` |
-| exiftool | 图片元数据 | `brew install exiftool` |
-| yt-dlp | YouTube/B站字幕 | `brew install yt-dlp` |
-| agent-reach | Twitter/小红书/公众号 | 见下方 |
+| Tool | Function | Install |
+|------|----------|---------|
+| Whisper | Speech-to-text | `pip3 install whisper` |
+| exiftool | Image metadata | `brew install exiftool` |
+| yt-dlp | YouTube/Bilibili subtitles | `brew install yt-dlp` |
+| agent-reach | Twitter/Xiaohongshu/WeChat | see below |
 
-**agent-reach 安装：**
+**agent-reach install:**
 
 ```
-请帮我安装 agent-reach: https://raw.githubusercontent.com/Panniantong/agent-reach/main/docs/install.md
+Please install agent-reach: https://raw.githubusercontent.com/Panniantong/agent-reach/main/docs/install.md
 ```
 
 ---
 
-## 常见问题
+## FAQ
 
-**Q: 我的数据存在哪里？**
-A: 在 `wiki/` 和 `raw/` 目录里，都在本地，不上传到云端。
+**Q: Where is my data stored?**
+A: In `wiki/` and `raw/` directories, all local, never uploaded to cloud.
 
-**Q: 需要手动维护吗？**
-A: 不需要。AI 会自动更新索引和日志。
+**Q: Do I need to maintain it manually?**
+A: No. AI automatically updates index and log.
 
-**Q: 第二大脑和普通笔记有什么区别？**
-A: 第二大脑会帮你自动分类（PARA 方法），记住内容之间的关系，还会定期检查健康状态。
+**Q: How is this different from regular notes?**
+A: Second Brain automatically classifies using PARA, remembers relationships between content, and runs regular health checks.
 
 ---
 
-## 给程序员的说明
+## Theoretical References
 
-如果你想手动安装或贡献代码，见 [README_DEV.md](README_DEV.md)。
+- [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
+- [PARA Method — Forte Labs](https://fortelabs.com/blog/para/)
+
+---
+
+## For Developers
+
+For manual installation or contributing, see [README_DEV.md](README_DEV.md).
+
+For Chinese version, see [README_ZH.md](README_ZH.md) (用户) / [README_DEV_ZH.md](README_DEV_ZH.md)（开发者）。
