@@ -99,4 +99,97 @@ tools/
 
 ---
 
+## 定时自动提醒（OpenClaw Cron）
+
+OpenClaw 支持 cron 定时任务，可以自动提醒你待办事项。
+
+### 查看 cron 命令
+
+```bash
+openclaw cron --help
+openclaw cron list        # 查看已有任务
+openclaw cron runs        # 查看执行历史
+```
+
+### 设置每日待办提醒
+
+每天早上 9 点自动检查 wiki/log.md 里的 pending 任务，推送到你的频道：
+
+```bash
+openclaw cron add \
+  --name "第二大脑-每日待办" \
+  --cron "0 9 * * *" \
+  --tz "Asia/Shanghai" \
+  --session isolated \
+  --message "读取 wiki/log.md 里所有 status=pending 的任务，以简洁列表格式输出今日待办，列出每个任务的时间、标题和关联项目" \
+  --announce \
+  --channel <你的频道> \
+  --to "<目标ID>"
+```
+
+### 设置每周健康检查
+
+每周日晚上 8 点自动运行健康检查：
+
+```bash
+openclaw cron add \
+  --name "第二大脑-周检" \
+  --cron "0 20 * * 0" \
+  --tz "Asia/Shanghai" \
+  --session isolated \
+  --message "运行 ./tools/doctor.sh 检查 wiki/ 目录结构，报告：1) 缺失的目录 2) 本周新增内容数量 3) 是否有未完成的任务" \
+  --announce \
+  --channel <你的频道> \
+  --to "<目标ID>"
+```
+
+### Cron 表达式说明
+
+| 表达式 | 含义 |
+|--------|------|
+| `0 9 * * *` | 每天 9:00 |
+| `0 20 * * 0` | 每周日 20:00 |
+| `30 9 * * 1-5` | 工作日 9:30 |
+| `0 */2 * * *` | 每 2 小时 |
+
+### 执行模式
+
+| 模式 | 说明 | 适用场景 |
+|------|------|----------|
+| `isolated` | 隔离子会话，推荐 | 后台任务、报告生成 |
+| `main` | 主会话 | 简单提醒、系统事件 |
+
+### 交付方式
+
+| 方式 | 说明 |
+|------|------|
+| `--announce --channel telegram` | 发送到 Telegram |
+| `--announce --channel slack` | 发送到 Slack |
+| `--webhook https://xxx` | POST 到 URL |
+
+### 实用定时任务示例
+
+```bash
+# 重要日程提前 1 小时提醒
+openclaw cron add \
+  --name "日程提醒-产品评审" \
+  --at "2026-04-10T14:00:00+08:00" \
+  --session main \
+  --system-event "日程提醒：今天下午3点产品评审会议" \
+  --wake now
+
+# 每月末整理归档
+openclaw cron add \
+  --name "第二大脑-月末归档" \
+  --cron "0 22 28-31 * *" \
+  --tz "Asia/Shanghai" \
+  --session isolated \
+  --message "检查 wiki/ 下所有超过3个月未更新的页面，列出可归档的内容建议" \
+  --announce \
+  --channel <你的频道> \
+  --to "<目标ID>"
+```
+
+---
+
 *详细处理模板见各 `process/*.md` 文件*
