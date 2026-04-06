@@ -84,9 +84,31 @@ second-brain/
 │   ├── areas/     # 持续关注的事
 │   ├── resources/ # 感兴趣的内容
 │   └── archives/  # 已完成/归档的
-├── raw/           # 原始素材（图片/语音/文件等）
-└── tools/         # 工具（健康检查/备份等）
+├── raw/            # 原始素材（图片/语音/文件等）
+├── process/       # AI 模板（不要修改）
+├── tools/         # 工具（健康检查/备份等）
+└── CLAUDE.md      # AI 配置（不要修改）
 ```
+
+---
+
+## Obsidian 配合使用
+
+用 **Obsidian** 可视化浏览你的知识库：
+
+1. 打开 Obsidian
+2. 点击"打开本地仓库" → 选择 `second-brain/` 文件夹
+3. Obsidian 会显示 `wiki/` 下所有 `.md` 文件
+4. 非 Markdown 文件（`.sh`、图片等）会自动隐藏
+
+**推荐安装的 Obsidian 插件：**
+- **Dataview** — 动态查询 wiki 数据
+- **Templater** — 自动化模板
+- **Obsidian Git** — 自动备份到 Git
+
+**使用提示：** OpenClaw/Claude Code 和 Obsidian 共用同一个 `second-brain/` 目录。OpenClaw 负责 AI 处理，Obsidian 提供可视化图谱视图。
+
+---
 
 ---
 

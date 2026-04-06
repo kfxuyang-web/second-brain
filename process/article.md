@@ -2,17 +2,19 @@
 
 **适用**：网页文章、博客、新闻、YouTube/B站字幕
 
-## 获取内容
+## 第一步：保存原始内容（必需！）
+
+**先保存到 raw/articles/，再创建 wiki 条目！**
 
 ```bash
-tools/fetch_content.sh <url>           # 智能识别平台
-# 或
-tools/fetch_url.sh <url>               # 普通网页
-yt-dlp --write-auto-sub <url>          # YouTube/B站字幕
-agent-reach --read <url>               # 公众号/小红书
+# 普通网页
+tools/fetch_url.sh <url> > raw/articles/$(date +%Y-%m-%d)-slug.txt
+
+# YouTube/B站字幕
+yt-dlp --write-auto-sub <url> -o "raw/articles/%(date)s-%(id)s.%(ext)s"
 ```
 
-## Twitter/X 专属抓取（优先使用 Jina Reader）
+## 第二步：获取内容
 
 Twitter 内容必须用 Jina Reader 抓取，格式：
 

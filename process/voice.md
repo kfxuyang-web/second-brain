@@ -2,13 +2,21 @@
 
 **适用**：录音、语音笔记
 
-## 获取内容
+## 第一步：保存语音文件（必需！）
+
+**先保存到 raw/voice/，再处理！**
 
 ```bash
-# 1. 转录
-tools/voice_to_text.sh <audio_file>    # 自动检测可用工具
+# 如果语音已在本地
+cp /path/to/recording.m4a raw/voice/$(date +%Y-%m-%d)-voice.m4a
 
-# 2. 备用：手动转录后粘贴文字 → 用 tweet.md 处理
+# 如果是 AI 收到的附件，正确命名后保存
+```
+
+## 第二步：转录
+
+```bash
+tools/voice_to_text.sh raw/voice/具体文件名.m4a
 ```
 
 ## Wiki 格式

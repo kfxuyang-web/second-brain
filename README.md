@@ -84,9 +84,29 @@ second-brain/
 │   ├── areas/     # Ongoing responsibilities
 │   ├── resources/ # Interesting topics
 │   └── archives/  # Completed/archived
-├── raw/           # Raw materials (images/audio/files)
-└── tools/         # Utilities (health check/backup/etc)
+├── raw/            # Raw materials (images/audio/files)
+├── process/       # AI templates (don't edit)
+├── tools/         # Utilities (health check/backup/etc)
+└── CLAUDE.md      # AI config (don't edit)
 ```
+
+---
+
+## Obsidian Integration
+
+Use **Obsidian** to visually browse your wiki:
+
+1. Open Obsidian
+2. Click "Open Vault" → select the `second-brain/` folder
+3. Obsidian will display all `.md` files in `wiki/`
+4. Non-markdown files (`.sh`, images in `raw/`, etc.) are automatically hidden
+
+**Recommended Obsidian plugins:**
+- **Dataview** — Query wiki data with dynamic tables
+- **Templater** — Automated templates
+- **Obsidian Git** — Auto-backup to Git
+
+**Tip:** Both OpenClaw/Claude Code and Obsidian work in the same `second-brain/` folder. OpenClaw manages AI processing, Obsidian provides the visual graph view.
 
 ---
 

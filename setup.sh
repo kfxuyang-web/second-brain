@@ -154,6 +154,7 @@ check_structure() {
         "raw/voice"
         "raw/images"
         "raw/files"
+        "raw/chats"
         "process"
         ".claude/commands"
         "tools"

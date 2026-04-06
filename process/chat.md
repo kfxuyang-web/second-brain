@@ -2,6 +2,20 @@
 
 **适用**：群聊、私聊、会议记录、与 AI 的对话
 
+## 第一步：保存聊天记录（必需！）
+
+**先保存到 raw/chats/，再处理！**
+
+```bash
+# 如果是文本，保存为 txt
+cat > raw/chats/$(date +%Y-%m-%d)-chat-topic.txt << 'EOF'
+粘贴聊天内容
+EOF
+
+# 如果是文件，复制到 raw/chats/
+cp /path/to/chat-file.raw raw/chats/
+```
+
 ## Wiki 格式
 
 ```markdown

@@ -2,16 +2,24 @@
 
 **适用**：PDF、Word、Excel、Markdown、文本等文档
 
-## 获取内容
+## 第一步：保存文件（必需！）
+
+**先保存到 raw/files/，再处理！**
 
 ```bash
-tools/extract_file_meta.sh <file>    # 元数据 + 内容提取
-tools/extract_pdf_text.sh <pdf>      # PDF专用
+# 保存文件到 raw/files/
+cp /path/to/document.pdf raw/files/$(date +%Y-%m-%d)-document.pdf
+```
+
+## 第二步：提取元数据
+
+```bash
+tools/extract_file_meta.sh raw/files/具体文件名.pdf
+tools/extract_pdf_text.sh raw/files/具体文件名.pdf    # PDF专用
 ```
 
 **PDF/Word 特有**：`pages`、`author`
 **Excel 特有**：`sheets`、`rows`
-**图片/音视频**：调用对应的 extract 工具
 
 ## Wiki 格式
 
