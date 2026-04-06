@@ -190,12 +190,69 @@ Install these for full functionality:
 | exiftool | Image metadata | `brew install exiftool` |
 | yt-dlp | YouTube/Bilibili subtitles | `brew install yt-dlp` |
 | agent-reach | Twitter/Xiaohongshu/WeChat | see below |
+| qmd | Semantic search (recommended) | `npm install -g @tobilu/qmd` |
 
 **agent-reach install:**
 
 ```
 Please install agent-reach: https://raw.githubusercontent.com/Panniantong/agent-reach/main/docs/install.md
 ```
+
+**qmd setup:**
+
+```bash
+npm install -g @tobilu/qmd
+qmd collection add $(pwd)/wiki --name second-brain
+qmd embed
+```
+
+---
+
+## Recommended Browser Extensions
+
+### Obsidian Web Clipper
+
+Convert web articles to markdown with one click:
+
+1. Install [Obsidian Web Clipper](https://obsidian.md/clipper) extension
+2. Configure to save to `second-brain/raw/articles/`
+3. Clip articles while browsing → they go directly to raw/
+
+This makes ingestion much faster — clip first, process later.
+
+### Image Download Hotkey
+
+After clipping an article with images:
+1. In Obsidian Settings → Files and links → set "Attachment folder path" to `raw/assets/`
+2. Bind hotkey: Search "Download" → "Download attachments for current file"
+3. After clipping, press the hotkey → all images download locally
+
+This ensures LLMs can view images directly from local files.
+
+---
+
+## Generate Slides from Wiki
+
+Use [Marp](https://marp.app/) to create presentations from wiki content:
+
+1. Install Marp plugin in Obsidian
+2. Write markdown with Marp syntax
+3. Export to PPT/PDF
+
+Example:
+```markdown
+---
+marp: true
+theme: default
+---
+
+# My Presentation
+
+- Point 1
+- Point 2
+```
+
+This lets you generate slide decks directly from your accumulated knowledge.
 
 ---
 

@@ -192,12 +192,69 @@ second-brain/
 | exiftool | 图片元数据 | `brew install exiftool` |
 | yt-dlp | YouTube/B站字幕 | `brew install yt-dlp` |
 | agent-reach | Twitter/小红书/公众号 | 见下方 |
+| qmd | 语义搜索（推荐）| `npm install -g @tobilu/qmd` |
 
 **agent-reach 安装：**
 
 ```
 请帮我安装 agent-reach: https://raw.githubusercontent.com/Panniantong/agent-reach/main/docs/install.md
 ```
+
+**qmd 安装：**
+
+```bash
+npm install -g @tobilu/qmd
+qmd collection add $(pwd)/wiki --name second-brain
+qmd embed
+```
+
+---
+
+## 推荐浏览器插件
+
+### Obsidian Web Clipper
+
+一键将网页文章转为 Markdown：
+
+1. 安装 [Obsidian Web Clipper](https://obsidian.md/clipper) 扩展
+2. 配置保存到 `second-brain/raw/articles/`
+3. 浏览时一键剪藏 → 直接进入 raw/
+
+大幅提升摄入速度 — 先剪藏，后处理。
+
+### 图片本地下载
+
+剪藏文章后下载图片：
+1. Obsidian 设置 → 文件与链接 → 设置"附件文件夹路径"为 `raw/assets/`
+2. 绑定快捷键：搜索"下载" → "下载当前文件的附件"
+3. 剪藏后按快捷键 → 所有图片本地保存
+
+这样 LLMs 可以直接从本地文件查看图片。
+
+---
+
+## 从 Wiki 生成 PPT
+
+用 [Marp](https://marp.app/) 从 wiki 内容生成演示文稿：
+
+1. 在 Obsidian 中安装 Marp 插件
+2. 用 Marp 语法写 markdown
+3. 导出为 PPT/PDF
+
+示例：
+```markdown
+---
+marp: true
+theme: default
+---
+
+# 我的演示
+
+- 要点1
+- 要点2
+```
+
+直接从积累的知识生成幻灯片。
 
 ---
 
