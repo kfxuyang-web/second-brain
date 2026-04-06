@@ -91,26 +91,15 @@ PARA 分类
 
 ---
 
-## 搜索结果回存（重要！）
+---
 
-**搜索得到的有价值结论，必须存回 wiki！**
+## 搜索后回存
 
-搜索不只是"找答案"，还有：
-- 综合分析（综合多个来源得出的结论）
-- 对比表（comparison）
-- 发现的新关联
-- 有价值的问答
+**搜索结果中的有价值的分析、结论、对比，必须存回 wiki！**
 
-**搜索后必做：**
-1. 返回搜索结果
-2. **询问用户**："要把这个分析存到 wiki 吗？"
-3. 如果用户同意 → 创建 wiki 页面（通常是 resources 或 archives）
-4. 更新 index.md 和 log.md
-5. 链接来源页面
+搜索后主动问用户："要把这个分析存到 wiki 吗？"
 
-**为什么重要：**
-Karpathy 说："good answers can be filed back into the wiki as new pages"
-探索的结论和摄入的内容一样有价值，都应该积累到 wiki 里。
+如果用户同意 → 创建 `wiki/resources/YYYY-MM-DD-search-{topic}.md` → 更新 index + log → 链接来源。
 
 ---
 

@@ -15,28 +15,15 @@ Tell me what you want to search for, e.g. "Search my second brain for content ab
 - "Find content about LLM Wiki in my second brain"
 - "Search in projects for deadline-related items"
 
-## Post-Search: Save Valuable Insights
+## Post-Search: Always Ask to Save
 
-**After returning search results, always ask:**
-> "Would you like to save this analysis to your wiki?"
+**After returning search results, ask:**
+> "要把这个分析存到 wiki 吗？"
 
-**Why this matters:**
-- Search results often contain synthesized insights
-- These insights are valuable and shouldn't disappear into chat history
-- Saving them to wiki compounds your knowledge over time
-
-**What to save:**
-- Synthesized conclusions from multiple sources
-- Comparisons and analyses you asked for
-- Connections discovered between topics
-- Questions answered that might help future searches
-
-**How to save:**
-1. If user says yes, create a new wiki page
-2. Classify using PARA (usually resources or archives)
-3. Write to wiki/{para}/YYYY-MM-DD-search-{topic}.md
-4. Update index.md and log.md
-5. Link to the source pages that contributed to the analysis
+If yes:
+1. Create `wiki/resources/YYYY-MM-DD-search-{topic}.md`
+2. Update `wiki/index.md` and `wiki/log.md`
+3. Link to source pages
 
 ## Tips
 
