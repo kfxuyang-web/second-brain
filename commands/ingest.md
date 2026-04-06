@@ -18,7 +18,25 @@ Save content to your second brain. Just say "save this to my second brain" follo
 4. Classify using PARA (Projects/Areas/Resources/Archives)
 5. Write to wiki/ directory
 6. Update index and log
-7. Create cross-links to related content
+7. **Ripple**: Update related existing pages
+
+## Ripple Effect (Important!)
+
+**A single source may touch 10-15 wiki pages, not just 1.**
+
+After creating the main wiki page, always:
+1. Search for existing pages that mention the same topics
+2. Update those pages with new information from the source
+3. Note if the new source contradicts existing claims
+4. Add references to the new page from related pages
+5. Update entity/concept pages with new data
+
+Example: Ingesting an AI agent article might require:
+- Creating the article page
+- Updating "AI_Agents" concept page
+- Updating "LLM_Wiki" concept page
+- Updating "OpenClaw" entity page
+- Noting any contradictions with existing articles
 
 ## Content types supported
 

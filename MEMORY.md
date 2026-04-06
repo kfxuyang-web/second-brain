@@ -13,7 +13,7 @@
 
 ---
 
-## 流程（7步）
+## 流程（8步）
 
 1. **判断类型** → 根据内容特征判断
 2. **读取规则** → 读 `process/*.md`
@@ -21,8 +21,10 @@
 4. **执行处理** → 提取内容、生成摘要
 5. **PARA 分类** → projects / areas / resources / archives
 6. **写入 wiki** → `wiki/{para}/YYYY-MM-DD-slug.md`
-7. **更新 index + log** → 更新 `wiki/index.md` 和 `wiki/log.md`
-8. **交叉链接** → 必需！搜索 wiki 已有内容并链接
+7. **Ripple 更新** → 必需！更新相关的 entity/concept 页面（10-15个页面）
+8. **更新 index + log** → 更新 `wiki/index.md` 和 `wiki/log.md`
+
+**Ripple 是什么：** 一个来源可能涉及 10+ 个 wiki 页面，创建主页面后，还要更新相关的概念页面、标记矛盾、补充现有内容。
 
 ---
 
