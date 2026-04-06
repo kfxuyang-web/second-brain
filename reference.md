@@ -91,10 +91,12 @@ tools/
 ├── doctor.sh           # 健康检查 + 修复
 ├── backup.sh          # raw/ 备份
 ├── fetch_content.sh   # 智能识别平台获取
+├── fetch_url.sh       # 抓取网页内容
 ├── voice_to_text.sh  # 语音转文字
-├── extract_exif.sh   # 图片 EXIF
+├── extract_exif.sh   # 图片 EXIF 元数据
 ├── extract_file_meta.sh # 文件元数据
-└── extract_pdf_text.sh # PDF 文字
+├── extract_pdf_text.sh # PDF 文字提取
+└── compile_schema.sh  # Schema 编译（Layer 3）
 ```
 
 ---
