@@ -43,6 +43,21 @@ recurring: {{none|weekly|daily}}
 改期 → 更新 due
 ```
 
+## 写入前必做：交叉链接
+
+**必需步骤！写入 wiki 前必须执行：**
+
+1. 用关键词搜索 wiki/ 目录：
+```bash
+grep -r "关键词1\|关键词2" wiki/
+```
+
+2. 找到相关页面后添加链接：
+```markdown
+## 关联
+- [[wiki/相关页面]] — 简要说明
+```
+
 ## 查询
 
 ```dataview
