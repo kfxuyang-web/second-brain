@@ -130,25 +130,38 @@ if command -v bash &> /dev/null; then
     bash "$PROJECT_DIR/setup.sh" --inject-only 2>/dev/null || true
 fi
 
-# 可选：重新设置定时任务（仅当 openclaw 可用时）
-if command -v openclaw &> /dev/null && [ -t 0 ]; then
+# 自动设置定时任务（无需交互）
+auto_setup_cron() {
+    if ! command -v openclaw &> /dev/null; then
+        return 0
+    fi
+
     echo ""
     echo "--------------------------------------------"
-    echo "检查定时任务..."
+    echo "设置定时任务..."
     echo "--------------------------------------------"
+
+    # 检查是否已有第二大脑定时任务
     CRON_COUNT=$(openclaw cron list 2>/dev/null | grep -c "第二大脑" || echo "0")
+
     if [ "$CRON_COUNT" -gt 0 ]; then
-        echo -e "  ${GREEN}✓${NC} 已检测到 $CRON_COUNT 个第二大脑定时任务"
-    else
-        echo -e "  ${YELLOW}⚠ 未检测到第二大脑定时任务${NC}"
-        read -p "是否现在设置？[y/N] " SETUP_CRON
-        if [[ "$SETUP_CRON" =~ ^[Yy]$ ]]; then
-            if command -v bash &> /dev/null; then
-                bash "$PROJECT_DIR/setup.sh" 2>/dev/null
-            fi
-        fi
+        echo -e "  ${GREEN}✓${NC} 已检测到 $CRON_COUNT 个第二大脑定时任务，跳过"
+        return 0
     fi
-fi
+
+    # 使用 --auto-cron 静默添加
+    echo -e "  ${BLUE}ℹ${NC} 自动添加定时任务（静默模式）..."
+    if command -v bash &> /dev/null; then
+        bash "$PROJECT_DIR/setup.sh" --auto-cron 2>/dev/null
+        echo -e "  ${GREEN}✓${NC} 定时任务已添加"
+    fi
+
+    echo ""
+    echo "  查看定时任务: openclaw cron list"
+    echo "  修改推送方式: openclaw cron edit <id>"
+}
+
+auto_setup_cron
 
 echo ""
 echo "============================================"

@@ -1,11 +1,20 @@
 #!/bin/bash
 # setup.sh — 第二大脑安装脚本
-# 用法: ./setup.sh [--fix] [--inject-only]
+# 用法: ./setup.sh [--fix] [--inject-only] [--auto-cron]
 
 set -e
 
-AUTO_FIX="${1:-}"
-INJECT_ONLY="${2:-}"
+AUTO_FIX=""
+INJECT_ONLY=""
+AUTO_CRON=""
+
+for arg in "$@"; do
+    case "$arg" in
+        --fix) AUTO_FIX="1" ;;
+        --inject-only) INJECT_ONLY="1" ;;
+        --auto-cron) AUTO_CRON="1" ;;
+    esac
+done
 
 # 如果是 --inject-only，直接运行注入然后退出
 if [ "$AUTO_FIX" = "--inject-only" ] || [ "$1" = "--inject-only" ]; then
@@ -347,7 +356,7 @@ inject_to_openclaw() {
 setup_cron() {
     echo ""
     echo "--------------------------------------------"
-    echo "设置定时提醒（可选）..."
+    echo "设置定时提醒..."
     echo "--------------------------------------------"
 
     # 检查 openclaw 是否可用
@@ -357,13 +366,31 @@ setup_cron() {
         return 0
     fi
 
-    # 非交互式跳过
-    if [ ! -t 0 ]; then
-        echo -e "  ${YELLOW}⚠ 非交互模式，跳过定时任务设置${NC}"
-        echo "  安装完成后手动运行: openclaw cron add ..."
+    # 自动模式（升级时用，不交互）
+    if [ "$AUTO_CRON" = "1" ]; then
+        echo -e "  ${BLUE}ℹ${NC} 自动模式添加定时任务..."
+        local TIMEZONE="Asia/Shanghai"
+
+        openclaw cron add \
+            --name "第二大脑-每日待办" \
+            --cron "0 9 * * *" \
+            --tz "$TIMEZONE" \
+            --session isolated \
+            --message "读取 wiki/log.md 列出今日 pending 待办，简洁列表格式" \
+            2>/dev/null && echo -e "  ${GREEN}✓${NC} 每日待办提醒已添加" || echo -e "  ${YELLOW}⚠ 添加失败${NC}"
+
+        openclaw cron add \
+            --name "第二大脑-周检" \
+            --cron "0 20 * * 0" \
+            --tz "$TIMEZONE" \
+            --session isolated \
+            --message "运行 ./tools/doctor.sh 检查 wiki/ 目录，报告结果" \
+            2>/dev/null && echo -e "  ${GREEN}✓${NC} 每周健康检查已添加" || echo -e "  ${YELLOW}⚠ 添加失败${NC}"
+
         return 0
     fi
 
+    # 交互模式（手动安装时用）
     echo "OpenClaw cron 可以帮你自动："
     echo "  1. 每天早上提醒待办"
     echo "  2. 每周自动健康检查"
