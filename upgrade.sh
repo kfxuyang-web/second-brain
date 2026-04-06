@@ -130,6 +130,26 @@ if command -v bash &> /dev/null; then
     bash "$PROJECT_DIR/setup.sh" --inject-only 2>/dev/null || true
 fi
 
+# 可选：重新设置定时任务（仅当 openclaw 可用时）
+if command -v openclaw &> /dev/null && [ -t 0 ]; then
+    echo ""
+    echo "--------------------------------------------"
+    echo "检查定时任务..."
+    echo "--------------------------------------------"
+    CRON_COUNT=$(openclaw cron list 2>/dev/null | grep -c "第二大脑" || echo "0")
+    if [ "$CRON_COUNT" -gt 0 ]; then
+        echo -e "  ${GREEN}✓${NC} 已检测到 $CRON_COUNT 个第二大脑定时任务"
+    else
+        echo -e "  ${YELLOW}⚠ 未检测到第二大脑定时任务${NC}"
+        read -p "是否现在设置？[y/N] " SETUP_CRON
+        if [[ "$SETUP_CRON" =~ ^[Yy]$ ]]; then
+            if command -v bash &> /dev/null; then
+                bash "$PROJECT_DIR/setup.sh" 2>/dev/null
+            fi
+        fi
+    fi
+fi
+
 echo ""
 echo "============================================"
 echo -e "     ${GREEN}升级完成！${NC}"

@@ -343,6 +343,132 @@ inject_to_openclaw() {
     fi
 }
 
+# 设置定时任务
+setup_cron() {
+    echo ""
+    echo "--------------------------------------------"
+    echo "设置定时提醒（可选）..."
+    echo "--------------------------------------------"
+
+    # 检查 openclaw 是否可用
+    if ! command -v openclaw &> /dev/null; then
+        echo -e "  ${YELLOW}⚠ openclaw CLI 未安装，跳过定时任务设置${NC}"
+        echo "  如需设置定时提醒，先安装 OpenClaw CLI"
+        return 0
+    fi
+
+    # 非交互式跳过
+    if [ ! -t 0 ]; then
+        echo -e "  ${YELLOW}⚠ 非交互模式，跳过定时任务设置${NC}"
+        echo "  安装完成后手动运行: openclaw cron add ..."
+        return 0
+    fi
+
+    echo "OpenClaw cron 可以帮你自动："
+    echo "  1. 每天早上提醒待办"
+    echo "  2. 每周自动健康检查"
+    echo ""
+    read -p "是否设置定时提醒？[y/N] " SETUP_CRON
+
+    if [[ ! "$SETUP_CRON" =~ ^[Yy]$ ]]; then
+        echo "跳过定时任务设置"
+        return 0
+    fi
+
+    # 选择时区
+    echo ""
+    echo "选择时区："
+    echo "  1) Asia/Shanghai（北京时间）"
+    echo "  2) Asia/Hong_Kong（香港时间）"
+    echo "  3) 其他（手动输入）"
+    read -p "请选择 [1]: " TZ_CHOICE
+    TZ_CHOICE="${TZ_CHOICE:-1}"
+
+    case "$TZ_CHOICE" in
+        1) TIMEZONE="Asia/Shanghai" ;;
+        2) TIMEZONE="Asia/Hong_Kong" ;;
+        3) read -p "请输入时区（如 America/New_York）: " TIMEZONE ;;
+        *) TIMEZONE="Asia/Shanghai" ;;
+    esac
+    echo "  使用时区: $TIMEZONE"
+
+    # 选择推送方式
+    echo ""
+    echo "选择推送方式："
+    echo "  1) 不发通知（仅内部执行）"
+    echo "  2) Telegram"
+    echo "  3) Slack"
+    read -p "请选择 [1]: " PUSH_CHOICE
+    PUSH_CHOICE="${PUSH_CHOICE:-1}"
+
+    local ANNOUNCE_FLAG=""
+    local CHANNEL_FLAG=""
+    local TO_FLAG=""
+
+    case "$PUSH_CHOICE" in
+        2)
+            read -p "请输入 Telegram 频道或用户名（如 @your_channel）: " TELEGRAM_TARGET
+            ANNOUNCE_FLAG="--announce"
+            CHANNEL_FLAG="--channel telegram"
+            TO_FLAG="--to ${TELEGRAM_TARGET:-self}"
+            ;;
+        3)
+            read -p "请输入 Slack 频道 ID（如 C0123456789）: " SLACK_TARGET
+            ANNOUNCE_FLAG="--announce"
+            CHANNEL_FLAG="--channel slack"
+            TO_FLAG="--to ${SLACK_TARGET:-self}"
+            ;;
+        *)
+            echo "  将使用静默模式（不发通知）"
+            ;;
+    esac
+
+    # 设置每日待办提醒
+    echo ""
+    echo "设置每日待办提醒（每天 9:00）..."
+
+    local CRON_CMD="openclaw cron add \
+      --name \"第二大脑-每日待办\" \
+      --cron \"0 9 * * *\" \
+      --tz \"$TIMEZONE\" \
+      --session isolated \
+      --message \"读取 wiki/log.md 列出今日 pending 待办，简洁列表格式\""
+
+    if [ -n "$ANNOUNCE_FLAG" ]; then
+        CRON_CMD="$CRON_CMD $ANNOUNCE_FLAG $CHANNEL_FLAG $TO_FLAG"
+    fi
+
+    if eval "$CRON_CMD" 2>/dev/null; then
+        echo -e "  ${GREEN}✓${NC} 每日待办提醒已设置"
+    else
+        echo -e "  ${YELLOW}⚠ 命令执行失败，请检查 openclaw 配置${NC}"
+    fi
+
+    # 设置每周健康检查
+    echo ""
+    echo "设置每周健康检查（每周日 20:00）..."
+
+    CRON_CMD="openclaw cron add \
+      --name \"第二大脑-周检\" \
+      --cron \"0 20 * * 0\" \
+      --tz \"$TIMEZONE\" \
+      --session isolated \
+      --message \"运行 ./tools/doctor.sh 检查 wiki/ 目录，报告结果\""
+
+    if [ -n "$ANNOUNCE_FLAG" ]; then
+        CRON_CMD="$CRON_CMD $ANNOUNCE_FLAG $CHANNEL_FLAG $TO_FLAG"
+    fi
+
+    if eval "$CRON_CMD" 2>/dev/null; then
+        echo -e "  ${GREEN}✓${NC} 每周健康检查已设置"
+    else
+        echo -e "  ${YELLOW}⚠ 命令执行失败，请检查 openclaw 配置${NC}"
+    fi
+
+    echo ""
+    echo "查看已设置的定时任务: openclaw cron list"
+}
+
 # 使用指引
 show_usage() {
     echo ""
@@ -394,5 +520,8 @@ fi
 
 # 注入到 OpenClaw 全局 MEMORY.md
 inject_to_openclaw
+
+# 设置定时任务（非交互式跳过）
+setup_cron
 
 show_usage
