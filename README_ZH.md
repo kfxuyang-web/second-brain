@@ -129,6 +129,36 @@ A: 第二大脑会帮你自动分类（PARA 方法），记住内容之间的关
 
 ---
 
+## Fork 和贡献
+
+**想保持最新版本，同时想贡献代码？**
+
+### 第一步：Fork 仓库
+点击 [github.com/zhiwehu/second-brain](https://github.com/zhiwehu/second-brain) 上的 "Fork" 按钮
+
+### 第二步：克隆你的 fork
+```bash
+git clone https://github.com/YOUR_USERNAME/second-brain.git
+cd second-brain
+```
+
+### 第三步：添加上游仓库
+```bash
+git remote add upstream https://github.com/zhiwehu/second-brain.git
+```
+
+### 第四步：升级
+当有更新时，运行：
+```bash
+./upgrade.sh
+```
+这会从原仓库拉取最新更改并合并到你的版本。
+
+### 第五步：贡献代码（可选）
+如果你修复了 bug 或添加了新功能，可以在 GitHub 上提交 Pull Request！
+
+---
+
 ## 给程序员的说明
 
 如果你想手动安装或贡献代码，见 [README_DEV.md](README_DEV.md)（英文）或 [README_DEV_ZH.md](README_DEV_ZH.md)（中文）。

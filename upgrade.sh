@@ -1,6 +1,9 @@
 #!/bin/bash
 # upgrade.sh — 第二大脑升级脚本
-# 安全升级：保留用户的 wiki/、raw/、log.md，只更新代码文件
+# 支持两种模式：
+#   1. Fork 用户：从上游仓库（upstream）拉取更新
+#   2. 原作者：从 origin 拉取更新
+# 安全升级：保留用户的 wiki/、raw/、wiki/log.md
 
 set -e
 
@@ -21,22 +24,38 @@ echo ""
 # 检查是否是 git 仓库
 if [ ! -d ".git" ]; then
     echo -e "${RED}错误: 不是 Git 仓库，无法升级${NC}"
-    echo "请用以下命令初始化："
+    echo ""
+    echo "如需初始化："
     echo "  git init"
     echo "  git remote add origin https://github.com/zhiwehu/second-brain.git"
     exit 1
 fi
 
-# 检查是否有 remote
-REMOTE=$(git remote get-url origin 2>/dev/null || echo "")
-if [ -z "$REMOTE" ]; then
-    echo -e "${RED}错误: 未设置 remote origin${NC}"
-    echo "请先设置："
-    echo "  git remote add origin https://github.com/zhiwehu/second-brain.git"
+# 检测升级模式
+UPSTREAM_URL=$(git remote get-url upstream 2>/dev/null || echo "")
+ORIGIN_URL=$(git remote get-url origin 2>/dev/null || echo "")
+
+echo -e "${BLUE}检测 Git 远程仓库...${NC}"
+echo "  origin:  $ORIGIN_URL"
+echo "  upstream: $UPSTREAM_URL"
+echo ""
+
+if [ -n "$UPSTREAM_URL" ]; then
+    # Fork 用户模式：从 upstream 拉取
+    echo -e "${GREEN}检测为 Fork 用户模式${NC}"
+    UPSTREAM_REMOTE="upstream"
+    echo -e "${YELLOW}将从 upstream 拉取更新：$UPSTREAM_URL${NC}"
+elif [ -n "$ORIGIN_URL" ]; then
+    # 原作者模式：从 origin 拉取
+    echo -e "${GREEN}检测为原作者模式${NC}"
+    UPSTREAM_REMOTE="origin"
+else
+    echo -e "${RED}错误: 未设置任何 remote${NC}"
+    echo "请确保已设置 remote："
+    echo "  git remote add origin https://github.com/YOUR_USERNAME/second-brain.git"
     exit 1
 fi
 
-echo -e "${BLUE}当前仓库:${NC} $REMOTE"
 echo ""
 
 # 确认要升级
@@ -50,36 +69,47 @@ fi
 
 echo ""
 echo "--------------------------------------------"
-echo "拉取最新代码..."
+echo "保存当前分支状态..."
 echo "--------------------------------------------"
 
-# 先 stash 用户的数据（如果有未提交的更改）
+# 检查未提交的更改
 if [ -n "$(git status --porcelain)" ]; then
     echo -e "${YELLOW}发现未提交的更改，先 stash...${NC}"
     git stash push -m "auto-stash before upgrade $(date +%Y-%m-%d)"
 fi
 
-# Fetch latest
-git fetch origin
-
-# 查看有哪些文件会被更新
+# 获取远程更新
 echo ""
-echo -e "${BLUE}即将更新的文件:${NC}"
-git diff --stat origin/main...HEAD -- ':!wiki' ':!raw' ':!wiki/log.md' 2>/dev/null || true
+echo "--------------------------------------------"
+echo "从 $UPSTREAM_REMOTE 拉取最新代码..."
+echo "--------------------------------------------"
 
-# 尝试 rebase 或 merge
+git fetch "$UPSTREAM_REMOTE"
+
+# 切换到 main 分支
 CURRENT_BRANCH=$(git branch --show-current)
 if [ "$CURRENT_BRANCH" != "main" ]; then
-    echo -e "${YELLOW}当前在 $CURRENT_BRANCH 分支，切换到 main...${NC}"
+    echo -e "${YELLOW}切换到 main 分支...${NC}"
     git checkout main
 fi
 
+# 查看即将更新的内容
 echo ""
-echo "执行 git pull..."
-if git pull --rebase origin main; then
+echo -e "${BLUE}即将更新的文件:${NC}"
+git diff --stat "$UPSTREAM_REMOTE/main...HEAD" -- ':!wiki' ':!raw' ':!wiki/log.md' 2>/dev/null || true
+
+# 合并（使用 rebase 保持历史整洁）
+echo ""
+if git pull --rebase "$UPSTREAM_REMOTE" main; then
     echo -e "${GREEN}✓ 升级成功${NC}"
 else
     echo -e "${RED}升级遇到冲突，请手动解决后运行 $0 重新升级${NC}"
+    echo ""
+    echo "手动解决冲突步骤："
+    echo "  1. 编辑冲突文件"
+    echo "  2. git add <冲突文件>"
+    echo "  3. git rebase --continue"
+    echo "  4. 解决完后运行 $0"
     exit 1
 fi
 
@@ -90,12 +120,12 @@ if git stash list | grep -q "auto-stash before upgrade"; then
     git stash pop
 fi
 
+# 重新注入 OpenClaw
 echo ""
 echo "--------------------------------------------"
 echo "检查是否需要重新注入 OpenClaw..."
 echo "--------------------------------------------"
 
-# 重新注入到 OpenClaw（会自动跳过已注入的）
 if command -v bash &> /dev/null; then
     bash "$PROJECT_DIR/setup.sh" --inject-only 2>/dev/null || true
 fi
@@ -105,9 +135,6 @@ echo "============================================"
 echo -e "     ${GREEN}升级完成！${NC}"
 echo "============================================"
 echo ""
-echo "如需查看改动："
-echo "  git log --oneline origin/main...HEAD"
-echo ""
-echo "如需查看升级说明："
-echo "  git show origin/main:README.md | head -50"
+echo "如需查看本次更新内容："
+echo "  git log --oneline $UPSTREAM_REMOTE/main...HEAD"
 echo ""

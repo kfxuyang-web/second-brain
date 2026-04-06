@@ -122,6 +122,38 @@ A: Second Brain automatically classifies using PARA, remembers relationships bet
 
 ---
 
+## Fork & Contribute
+
+**Want to stay updated with the latest changes?**
+
+If you fork this repo, you can receive updates from the original:
+
+### Step 1: Fork on GitHub
+Click the "Fork" button on [github.com/zhiwehu/second-brain](https://github.com/zhiwehu/second-brain)
+
+### Step 2: Clone your fork
+```bash
+git clone https://github.com/YOUR_USERNAME/second-brain.git
+cd second-brain
+```
+
+### Step 3: Add upstream remote
+```bash
+git remote add upstream https://github.com/zhiwehu/second-brain.git
+```
+
+### Step 4: Upgrade
+When updates are available, run:
+```bash
+./upgrade.sh
+```
+This will fetch latest changes from the original repo and merge them into yours.
+
+### Step 5: Contribute (optional)
+If you fix a bug or add a feature, submit a Pull Request on GitHub!
+
+---
+
 ## Theoretical References
 
 - [Karpathy's LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
@@ -133,4 +165,4 @@ A: Second Brain automatically classifies using PARA, remembers relationships bet
 
 For manual installation or contributing, see [README_DEV.md](README_DEV.md).
 
-For Chinese version, see [README_ZH.md](README_ZH.md) (用户) / [README_DEV_ZH.md](README_DEV_ZH.md)（开发者）。
+For Chinese version, see [README_ZH.md](README_ZH.md) / [README_DEV_ZH.md](README_DEV_ZH.md).
