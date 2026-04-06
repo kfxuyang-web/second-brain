@@ -146,10 +146,51 @@ check_dependencies() {
     check_dep "agent-reach" "agent-reach (Twitter/公众号/小红书)" || true
     check_dep "rsync" "rsync (备份)" || true
     check_dep "yt-dlp" "yt-dlp (YouTube/B站字幕)" || true
+    check_dep "qmd" "qmd (语义搜索)" || true
 
     if [ $MISSING -gt 0 ]; then
         echo ""
         echo -e "${YELLOW}建议安装缺失的工具以获得完整功能${NC}"
+    fi
+}
+
+# 初始化 qmd 搜索
+init_qmd() {
+    echo ""
+    echo "--------------------------------------------"
+    echo "初始化 qmd 搜索..."
+    echo "--------------------------------------------"
+
+    if ! command -v qmd &> /dev/null; then
+        echo -e "  ${YELLOW}⚠ qmd 未安装，跳过${NC}"
+        echo "  如需语义搜索，安装: npm install -g @tobilu/qmd"
+        return 0
+    fi
+
+    # 检查 wiki 目录是否存在
+    if [ ! -d "wiki" ]; then
+        echo -e "  ${YELLOW}⚠ wiki/ 目录不存在，跳过${NC}"
+        return 0
+    fi
+
+    # 添加 wiki collection
+    if qmd collection list 2>/dev/null | grep -q "second-brain"; then
+        echo -e "  ${GREEN}✓${NC} qmd collection 'second-brain' 已存在"
+    else
+        echo "  添加 qmd collection..."
+        if qmd collection add "$(pwd)/wiki" --name second-brain 2>/dev/null; then
+            echo -e "  ${GREEN}✓${NC} qmd collection 'second-brain' 已添加"
+        else
+            echo -e "  ${YELLOW}⚠ 添加 collection 失败${NC}"
+        fi
+    fi
+
+    # 生成 embeddings
+    echo "  生成语义搜索索引..."
+    if qmd embed 2>/dev/null; then
+        echo -e "  ${GREEN}✓${NC} 索引生成完成"
+    else
+        echo -e "  ${YELLOW}⚠ 索引生成失败（可选，继续使用 grep）${NC}"
     fi
 }
 
@@ -165,6 +206,7 @@ check_structure() {
         "wiki/areas"
         "wiki/resources"
         "wiki/archives"
+        "wiki/schema"
         "raw/articles"
         "raw/tweets"
         "raw/voice"
@@ -173,6 +215,7 @@ check_structure() {
         "raw/chats"
         "process"
         ".claude/commands"
+        "commands"
         "tools"
     )
 
@@ -529,6 +572,11 @@ check_dependencies
 check_structure
 check_tools
 check_core_files
+
+# 初始化 qmd 搜索（非交互式，失败不影响主流程）
+if [ "$AUTO_CRON" = "1" ] || [ ! -t 0 ]; then
+    init_qmd 2>/dev/null || true
+fi
 
 if [ "$AUTO_FIX" == "--fix" ]; then
     echo ""
