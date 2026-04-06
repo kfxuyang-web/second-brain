@@ -9,6 +9,8 @@ Save content to your second brain. Just say "save this to my second brain" follo
 - "Save this screenshot to my second brain"
 - "Save this voice memo to my second brain"
 - "Save this meeting notes to my second brain"
+- **Batch**: "Process all articles in raw/articles"
+- **Batch**: "Ingest all unprocessed files in raw/"
 
 ## What happens
 
@@ -62,3 +64,19 @@ The AI automatically classifies content into:
 ## Simple voice messages
 
 Voice messages under 5 seconds that are just confirmations (like "ok", "good") are not stored - they're just replied to directly.
+
+## Batch Processing Manually Added Files
+
+If you manually add files to raw/ directories, trigger ingestion by saying:
+
+- "Process all articles in raw/articles"
+- "Ingest all unprocessed files in raw/"
+- "Batch ingest raw/ directory"
+
+The AI will:
+1. List all files in raw/ that don't have corresponding wiki entries
+2. Process each file using the appropriate process/*.md template
+3. Create wiki entries with PARA classification
+4. Update index.md and log.md
+
+**Tip**: Files without wiki entries = unprocessed. The AI checks wiki/log.md to determine which files have been processed.
