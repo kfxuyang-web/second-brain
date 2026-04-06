@@ -207,6 +207,73 @@ check_core_files() {
     done
 }
 
+# 注入到 OpenClaw 全局 MEMORY.md
+inject_to_openclaw() {
+    echo ""
+    echo "--------------------------------------------"
+    echo "注入到 OpenClaw..."
+    echo "--------------------------------------------"
+
+    # 尝试多个可能的 OpenClaw MEMORY.md 位置
+    OPENCLAW_MEMORY=""
+    for path in \
+        "$HOME/.openclaw/workspace/MEMORY.md" \
+        "$HOME/.claude/projects/MEMORY.md" \
+        "$HOME/MEMORY.md"
+    do
+        if [ -f "$path" ]; then
+            OPENCLAW_MEMORY="$path"
+            break
+        fi
+    done
+
+    if [ -z "$OPENCLAW_MEMORY" ]; then
+        echo -e "  ${YELLOW}⚠ 未找到 OpenClaw MEMORY.md，跳过注入${NC}"
+        echo "  如需手动集成，参考: https://github.com/zhiwehu/second-brain"
+        return 0
+    fi
+
+    # 检查是否已经注入过
+    if grep -q "second-brain\|第二大脑" "$OPENCLAW_MEMORY" 2>/dev/null; then
+        echo -e "  ${GREEN}✓${NC} 已注入过第二大脑引用"
+        return 0
+    fi
+
+    # 构建注入内容
+    INJECT_CONTENT="
+
+---
+
+## 🧠 第二大脑 (Second Brain)
+
+**仓库路径：** \`$PROJECT_DIR/\`
+
+第二大脑 = LLM Wiki + PARA 方法，用于知识积累和内容收藏。
+
+**使用场景：**
+- 推文/微博/灵感收集
+- 文章/链接摄入
+- 截图/图片保存
+- 语音备忘
+- 文档/文件整理
+- 聊天记录归档
+- 日程/TODO 管理
+
+**用法：** 直接把内容或链接发给 AI，说"存入第二大脑"。
+
+"
+
+    # 追加到文件
+    echo "$INJECT_CONTENT" >> "$OPENCLAW_MEMORY"
+    echo -e "  ${GREEN}✓${NC} 已注入到 $OPENCLAW_MEMORY"
+
+    # 尝试更新文件最后更新时间
+    if [ -n "$(which sed)" ]; then
+        # 更新 Last Updated 日期（如果存在）
+        sed -i.bak "s/\*\*最后更新：\*\*.*/\*\*最后更新：\*\*/" "$OPENCLAW_MEMORY" 2>/dev/null || true
+    fi
+}
+
 # 使用指引
 show_usage() {
     echo ""
@@ -214,31 +281,12 @@ show_usage() {
     echo "       安装完成! 接下来:"
     echo "============================================"
     echo ""
-    echo -e "${BLUE}第一步: 告诉 AI 关于这个项目${NC}"
+    echo -e "${BLUE}第一步: 测试第二大脑${NC}"
     echo ""
-    echo "在 OpenClaw 或 Claude Code 中，运行以下命令之一:"
+    echo "  说: '请帮我把这段话存入第二大脑：测试内容'"
+    echo "  AI 会自动路由到第二大脑流程处理"
     echo ""
-    echo -e "${YELLOW}方法 1: 直接复制粘贴内容${NC}"
-    echo "  1. 打开 MEMORY.md 文件"
-    echo "  2. 复制全部内容"
-    echo "  3. 粘贴给 AI: '请用这个 MEMORY.md 作为参考处理我的内容'"
-    echo ""
-    echo -e "${YELLOW}方法 2: 在 Claude Code 中 (推荐)${NC}"
-    echo "  1. 在项目目录下启动 Claude Code:"
-    echo "     cd second-brain"
-    echo "     claude"
-    echo "  2. Claude Code 会自动读取 CLAUDE.md"
-    echo ""
-    echo -e "${YELLOW}方法 3: 在 OpenClaw 中${NC}"
-    echo "  1. 设置工作目录为 second-brain"
-    echo "  2. OpenClaw 会读取 CLAUDE.md"
-    echo ""
-    echo -e "${BLUE}第二步: 测试第二大脑${NC}"
-    echo ""
-    echo "  说: '请帮我把 https://example.com/article 摄入第二大脑'"
-    echo "  AI 会读取 MEMORY.md 并按照流程处理"
-    echo ""
-    echo -e "${BLUE}第三步: 运行健康检查${NC}"
+    echo -e "${BLUE}第二步: 运行健康检查${NC}"
     echo ""
     echo "  ./tools/doctor.sh"
     echo "  ./tools/doctor.sh --fix  # 自动修复问题"
@@ -274,5 +322,8 @@ if [ ! -d ".git" ]; then
         git init
     fi
 fi
+
+# 注入到 OpenClaw 全局 MEMORY.md
+inject_to_openclaw
 
 show_usage
