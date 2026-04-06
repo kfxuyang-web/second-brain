@@ -75,6 +75,75 @@ AI 会自动：
 
 ---
 
+## 定时提醒
+
+使用 OpenClaw cron 设置自动提醒：
+
+```bash
+# 每日待办提醒（早上9点）
+openclaw cron add \
+  --name "第二大脑-每日待办" \
+  --cron "0 9 * * *" \
+  --tz "Asia/Shanghai" \
+  --session isolated \
+  --message "读取 wiki/log.md 列出今日待办" \
+  --announce --channel <你的频道> --to "<目标>"
+
+# 每周健康检查（周日晚上8点）
+openclaw cron add \
+  --name "第二大脑-周检" \
+  --cron "0 20 * * 0" \
+  --tz "Asia/Shanghai" \
+  --session isolated \
+  --message "运行 ./tools/doctor.sh 检查结果" \
+  --announce --channel <你的频道> --to "<目标>"
+```
+
+---
+
+## Schema 编译
+
+第三层架构 — 从 Wiki 中提取概念和关系：
+
+```
+帮我编译第二大脑的 Schema
+```
+
+这会提取：
+- **概念**（人名、产品名、方法论、技术名词）
+- **关系**（影响、支持、使用、属于）
+- **属性**（领域、类型、首次出现）
+
+当你的 Wiki 积累了一定内容后运行：
+
+```bash
+./tools/compile_schema.sh --status  # 查看状态
+./tools/compile_schema.sh --incremental  # 增量编译（推荐）
+./tools/compile_schema.sh --full  # 全量编译
+```
+
+---
+
+## 三层架构
+
+第二大脑采用 Karpathy 的 LLM Wiki 三层架构：
+
+```
+第一层：原始素材 (raw/)
+         ↓  摄入
+第二层：Wiki (wiki/)
+         ↓  编译（每周）
+第三层：Schema (wiki/schema/)
+```
+
+| 层级 | 内容 | 更新时机 |
+|------|------|----------|
+| **Raw** | 原始文件（图片/语音/推文/文章） | 每次摄入 |
+| **Wiki** | 处理后的知识（摘要、PARA分类） | 每次摄入 |
+| **Schema** | 概念和关系（从Wiki编译） | 每周编译 |
+
+---
+
 ## 目录结构
 
 ```
@@ -83,10 +152,11 @@ second-brain/
 │   ├── projects/   # 正在做的项目
 │   ├── areas/     # 持续关注的事
 │   ├── resources/ # 感兴趣的内容
-│   └── archives/  # 已完成/归档的
+│   ├── archives/  # 已完成/归档的
+│   └── schema/    # 第三层：概念和关系
 ├── raw/            # 原始素材（图片/语音/文件等）
 ├── process/       # AI 模板（不要修改）
-├── tools/         # 工具（健康检查/备份等）
+├── tools/         # 工具（健康检查/编译等）
 └── CLAUDE.md      # AI 配置（不要修改）
 ```
 
@@ -141,6 +211,9 @@ A: 不需要。AI 会自动更新索引和日志。
 
 **Q: 第二大脑和普通笔记有什么区别？**
 A: 第二大脑会帮你自动分类（PARA 方法），记住内容之间的关系，还会定期检查健康状态。
+
+**Q: Schema 是什么？什么时候编译？**
+A: Schema 是第三层架构 — 从你的 Wiki 内容中提取概念和关系。建议每周编译一次，用 `@compile` 命令或运行 `./tools/compile_schema.sh --incremental`。
 
 ---
 

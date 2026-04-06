@@ -75,6 +75,75 @@ Or manually:
 
 ---
 
+## Scheduled Reminders
+
+Set up automatic reminders using OpenClaw cron:
+
+```bash
+# Daily todo reminder (9 AM)
+openclaw cron add \
+  --name "Second Brain - Daily Review" \
+  --cron "0 9 * * *" \
+  --tz "Asia/Shanghai" \
+  --session isolated \
+  --message "Read wiki/log.md and list all pending tasks for today" \
+  --announce --channel <your-channel> --to "<target>"
+
+# Weekly health check (Sunday 8 PM)
+openclaw cron add \
+  --name "Second Brain - Weekly Check" \
+  --cron "0 20 * * 0" \
+  --tz "Asia/Shanghai" \
+  --session isolated \
+  --message "Run ./tools/doctor.sh and report the results" \
+  --announce --channel <your-channel> --to "<target>"
+```
+
+---
+
+## Schema Compilation
+
+Layer 3 of the architecture — extract concepts and relationships from your wiki:
+
+```
+Compile my second brain schema
+```
+
+This extracts:
+- **Concepts** (people, products, methods, technologies)
+- **Relations** (influences, supports, uses, part_of)
+- **Properties** (domain, type, first_seen)
+
+Run manually when your wiki accumulates content:
+
+```bash
+./tools/compile_schema.sh --status  # check status
+./tools/compile_schema.sh --incremental  # compile new content only
+./tools/compile_schema.sh --full  # full recompile
+```
+
+---
+
+## Three-Layer Architecture
+
+Second Brain uses Karpathy's LLM Wiki three-layer architecture:
+
+```
+Layer 1: Raw Sources (raw/)
+         ↓  ingest
+Layer 2: Wiki (wiki/)
+         ↓  compile (weekly)
+Layer 3: Schema (wiki/schema/)
+```
+
+| Layer | What it is | Updated |
+|-------|-----------|---------|
+| **Raw** | Original files (images/audio/tweets/articles) | Every ingest |
+| **Wiki** | Processed knowledge (summaries, PARA classification) | Every ingest |
+| **Schema** | Concepts & relationships (compiles from Wiki) | Weekly |
+
+---
+
 ## Directory Structure
 
 ```
@@ -83,10 +152,11 @@ second-brain/
 │   ├── projects/   # Active projects
 │   ├── areas/     # Ongoing responsibilities
 │   ├── resources/ # Interesting topics
-│   └── archives/  # Completed/archived
+│   ├── archives/  # Completed/archived
+│   └── schema/    # Layer 3: Concepts & relationships
 ├── raw/            # Raw materials (images/audio/files)
 ├── process/       # AI templates (don't edit)
-├── tools/         # Utilities (health check/backup/etc)
+├── tools/         # Utilities (health check/compile/etc)
 └── CLAUDE.md      # AI config (don't edit)
 ```
 
@@ -139,6 +209,9 @@ A: No. AI automatically updates index and log.
 
 **Q: How is this different from regular notes?**
 A: Second Brain automatically classifies using PARA, remembers relationships between content, and runs regular health checks.
+
+**Q: What is Schema and when should I compile it?**
+A: Schema is Layer 3 — it extracts concepts and relationships from your wiki content. Compile when your wiki has accumulated significant content (weekly recommended). Use `@compile` command or run `./tools/compile_schema.sh --incremental`.
 
 ---
 
