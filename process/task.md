@@ -51,3 +51,17 @@ FROM "wiki"
 WHERE type = "task" AND status != "completed"
 SORT due ASC
 ```
+
+## 更新 Log（必需！）
+
+在 `wiki/log.md` 顶部插入：
+
+```markdown
+## [{{date}}] ingest | {{title}}
+
+- **类型:** task
+- **PARA:** {{para}}
+- **文件:** wiki/{{para}}/{{slug}}.md
+- **摘要:** {{一句话摘要}}
+- **操作:** ingest
+```

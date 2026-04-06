@@ -54,3 +54,17 @@ pages: {{页数}}    # PDF特有
 | 持续跟踪报告 | areas |
 | 书籍/论文/参考 | resources |
 | 历史文档 | archives |
+
+## 更新 Log（必需！）
+
+在 `wiki/log.md` 顶部插入：
+
+```markdown
+## [{{date}}] ingest | {{title}}
+
+- **类型:** file
+- **PARA:** {{para}}
+- **文件:** wiki/{{para}}/{{slug}}.md
+- **摘要:** {{一句话摘要}}
+- **操作:** ingest
+```

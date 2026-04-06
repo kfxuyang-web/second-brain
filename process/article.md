@@ -45,3 +45,18 @@ source: {{url}}
 | 持续关注 | areas |
 | 感兴趣暂无行动 | resources |
 | 读完了无后续 | archives |
+
+## 更新 Log（必需！）
+
+在 `wiki/log.md` 顶部插入：
+
+```markdown
+## [{{date}}] ingest | {{title}}
+
+- **类型:** article
+- **PARA:** {{para}}
+- **文件:** wiki/{{para}}/{{slug}}.md
+- **摘要:** {{一句话摘要}}
+- **操作:** ingest
+```
+

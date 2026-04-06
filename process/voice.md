@@ -48,3 +48,17 @@ transcript: raw/voice/{{filename}}.md
 | 持续领域讨论 | areas |
 | 灵感/想法 | resources |
 | 会议记录（无后续）| archives |
+
+## 更新 Log（必需！）
+
+在 `wiki/log.md` 顶部插入：
+
+```markdown
+## [{{date}}] ingest | {{title}}
+
+- **类型:** voice
+- **PARA:** {{para}}
+- **文件:** wiki/{{para}}/{{slug}}.md
+- **摘要:** {{一句话摘要}}
+- **操作:** ingest
+```

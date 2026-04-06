@@ -34,3 +34,17 @@ source: {{tweet_url}}
 ## 合并策略
 
 同一天多条相关内容 → 合并到一条汇总页，不单独建页
+
+## 更新 Log（必需！）
+
+在 `wiki/log.md` 顶部插入：
+
+```markdown
+## [{{date}}] ingest | {{title}}
+
+- **类型:** tweet
+- **PARA:** {{para}}
+- **文件:** wiki/{{para}}/{{slug}}.md
+- **摘要:** {{一句话摘要}}
+- **操作:** ingest
+```

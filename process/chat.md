@@ -46,3 +46,17 @@ platform: {{wechat|slack|meeting|wechat}}
 ## 与 AI 对话
 
 用户与 OpenClaw/Claude Code 的对话中，有价值的内容也应处理
+
+## 更新 Log（必需！）
+
+在 `wiki/log.md` 顶部插入：
+
+```markdown
+## [{{date}}] ingest | {{title}}
+
+- **类型:** chat
+- **PARA:** {{para}}
+- **文件:** wiki/{{para}}/{{slug}}.md
+- **摘要:** {{一句话摘要}}
+- **操作:** ingest
+```

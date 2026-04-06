@@ -57,3 +57,17 @@ camera: {{相机/手机}}              # 可选
 grep -r "location: 合肥" wiki/ | grep -r "鸟"
 grep -r "taken_at: 2026-03" wiki/
 ```
+
+## 更新 Log（必需！）
+
+在 `wiki/log.md` 顶部插入：
+
+```markdown
+## [{{date}}] ingest | {{title}}
+
+- **类型:** image
+- **PARA:** {{para}}
+- **文件:** wiki/{{para}}/{{slug}}.md
+- **摘要:** {{一句话摘要}}
+- **操作:** ingest
+```
