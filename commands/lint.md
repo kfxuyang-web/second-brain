@@ -7,29 +7,32 @@ Run a health check on your second brain. Say "run the health check" or "check my
 - "Run the health check on my second brain"
 - "Check if my second brain is healthy"
 - "Run the second brain doctor"
+- "Run a full lint on my wiki"
 
-## What it checks
+## Two-Level Checks
 
-### Quick checks
-- wiki/index.md is synchronized with actual pages
-- wiki/log.md format is correct
-- No orphan pages (pages with no inbound links)
-- No stale pages (not updated in 30+ days)
-
-### Full checks
-- Search for contradictions between pages
-- Check if newer sources have superseded old claims
-- Identify orphan pages
-- Check for missing cross-references
-- Find data gaps that could be filled
-
-## Run manually
-
+### Structural (Automated)
 ```bash
 ./tools/doctor.sh        # Quick check
-./tools/doctor.sh --fix  # Auto-fix issues
+./tools/doctor.sh --fix  # Auto-fix
 ```
+- Directory structure
+- Core files existence
+- Index/log synchronization
+- Orphan pages
+- Git status
+
+### Content (AI-Powered) — Run with this command
+
+Say "Run a full lint on my wiki" or ask AI to check:
+
+1. **Contradictions** — Find pages with conflicting claims
+2. **Stale claims** — Check if newer sources have superseded old claims
+3. **Orphan pages** — Pages with no inbound links
+4. **Missing cross-references** — Concepts mentioned but not linked
+5. **Data gaps** — Important topics not yet covered
 
 ## How often
 
-Run a quick check weekly. Run a full check monthly or when you notice issues.
+- Quick check (doctor.sh): Weekly
+- Full lint (AI-powered): Monthly

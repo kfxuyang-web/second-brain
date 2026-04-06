@@ -48,12 +48,14 @@ REQUIRED_DIRS=(
     "wiki/areas"
     "wiki/resources"
     "wiki/archives"
+    "wiki/schema"
     "raw/articles"
     "raw/tweets"
     "raw/voice"
     "raw/images"
     "raw/files"
     "process"
+    "commands"
     ".claude/commands"
 )
 
