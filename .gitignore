@@ -1,0 +1,35 @@
+# 第二大脑 .gitignore
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# 原始素材（可能包含敏感信息）
+raw/articles/*.md
+raw/tweets/*.md
+raw/voice/*.m4a
+raw/voice/*.mp3
+raw/voice/*.wav
+raw/images/*.png
+raw/images/*.jpg
+raw/images/*.jpeg
+raw/images/*.gif
+raw/images/*.webp
+raw/files/*.pdf
+raw/files/*.docx
+raw/files/*.xlsx
+
+# 保持目录结构但忽略所有文件
+raw/**/*
+
+# 临时文件
+*.tmp
+*.swp
+*~
+
+# 日志（可选，取决于隐私需求）
+# wiki/log.md
+
+# 敏感配置
+.env
+.env.local
