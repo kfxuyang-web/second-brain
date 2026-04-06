@@ -23,7 +23,7 @@
 ### 前置要求
 
 - [OpenClaw](https://github.com/opencodeai/openclaw) 或 [Claude Code](https://claude.ai/code)
-- 可选：SenseVoice / Whisper / Aeneas（语音识别）
+- 可选：SenseVoice / Whisper（语音识别）
 - 可选：exiftool（图片元数据）
 - 可选：yt-dlp（YouTube/B站字幕下载）
 - 可选：[Agent-Reach](https://github.com/Panniantong/Agent-Reach)（Twitter/公众号/小红书）

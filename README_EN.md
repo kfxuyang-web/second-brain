@@ -23,7 +23,7 @@ This project integrates two powerful theories:
 ### Prerequisites
 
 - [OpenClaw](https://github.com/opencodeai/openclaw) or [Claude Code](https://claude.ai/code)
-- Optional: SenseVoice / Whisper / Aeneas (speech recognition)
+- Optional: SenseVoice / Whisper (speech recognition)
 - Optional: exiftool (image metadata)
 - Optional: yt-dlp (YouTube/Bilibili subtitle download)
 - Optional: [Agent-Reach](https://github.com/Panniantong/Agent-Reach) (Twitter/WeChat Official Account/Xiaohongshu)

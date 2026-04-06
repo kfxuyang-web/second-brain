@@ -25,8 +25,6 @@ detect_tool() {
         echo "ollama-sensevoice"
     elif command -v whisper &> /dev/null; then
         echo "whisper"
-    elif command -v aeneas &> /dev/null; then
-        echo "aeneas"
     else
         echo "none"
     fi
@@ -52,14 +50,6 @@ case "$TOOL" in
             whisper "$AUDIO_FILE" --language "$LANG" --output_file "$OUTPUT_FILE"
         fi
         ;;
-    "aeneas")
-        echo "使用 Aeneas 转录..."
-        if [ -z "$OUTPUT_FILE" ]; then
-            aeneas -l="zh" "$AUDIO_FILE"
-        else
-            aeneas -l="zh" "$AUDIO_FILE" "$OUTPUT_FILE"
-        fi
-        ;;
     "none")
         echo "错误: 未检测到语音识别工具"
         echo ""
@@ -69,8 +59,6 @@ case "$TOOL" in
         echo "  2. Whisper:"
         echo "     pip3 install whisper"
         echo "     或: brew install whisper"
-        echo "  3. Aeneas:"
-        echo "     pip3 install aeneas"
         exit 1
         ;;
 esac
