@@ -2,10 +2,22 @@
 
 **适用**：照片、截图、图表、PPT截图
 
-## 获取元数据
+## 第一步：保存图片文件（必需！）
+
+**先保存图片到 raw/images/，再创建 wiki 条目！**
 
 ```bash
-tools/extract_exif.sh <image_file>    # 自动检测 exiftool/imagemagick/sips
+# 如果图片已在本地
+cp /path/to/image.jpg raw/images/$(date +%Y-%m-%d)-original-name.jpg
+
+# 如果是 AI 收到的图片附件，用正确文件名保存
+# 文件名格式：YYYY-MM-DD-描述.jpg
+```
+
+## 第二步：获取元数据
+
+```bash
+tools/extract_exif.sh raw/images/具体文件名.jpg
 ```
 
 **必提字段**：`taken_at`、`location`、`camera`
