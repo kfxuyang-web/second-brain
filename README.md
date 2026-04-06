@@ -1,14 +1,76 @@
 # Second Brain
 
-> Your personal knowledge base, maintained by AI. Just say what you want to save — AI handles the rest.
+> Your personal knowledge base, maintained by AI.
+> Just say what you want to save — AI handles the rest.
 
-**Twitter:** [@zhiwehu](https://twitter.com/zhiwehu)
+[**🇨🇳 中文说明**](README_ZH.md) · [**Twitter:** @zhiwehu](https://twitter.com/zhiwehu)
+
+---
+
+## One-Command Install
+
+**In OpenClaw or Claude Code, just say:**
+
+```
+Please install Second Brain from https://github.com/zhiwehu/second-brain
+```
+
+AI will automatically: clone → setup → inject → done.
+
+---
+
+## Features at a Glance
+
+| What to Say | What Happens |
+|-------------|-------------|
+| `Save this to my second brain: [content]` | Stores and classifies the content |
+| `Save this link: [URL]` | Fetches, summarizes, saves |
+| `Search my second brain for [topic]` | Semantic search across all your knowledge |
+| `Save this screenshot` | Extracts text, saves image + metadata |
+| `Save this voice memo` | Transcribes, summarizes, stores |
+| `Save this meeting notes` | Extracts decisions, action items,存档 |
+| `Run health check` | Checks wiki health, fixes issues |
+| `Compile schema` | Builds knowledge graph from your wiki |
+
+**7 content types:** Tweets · Articles · Images · Voice · Files · Chats · Tasks
+
+---
+
+## How It Works
+
+```
+You say "save this" → AI processes → Stored in your knowledge base
+         ↓
+    Raw file saved (images, audio, documents)
+         ↓
+    AI extracts key information
+         ↓
+    Classified into PARA (Projects/Areas/Resources/Archives)
+         ↓
+    Written to wiki + cross-linked + logged
+```
+
+**PARA Classification:** AI automatically decides where content belongs:
+- **Projects** — Active goals with deadlines
+- **Areas** — Ongoing responsibilities
+- **Resources** — Topics you're interested in
+- **Archives** — Completed or abandoned items
+
+---
+
+## Three-Layer Architecture
+
+```
+Layer 1: raw/          → Original files (images, audio, tweets)
+Layer 2: wiki/         → Processed knowledge (summaries, links)
+Layer 3: wiki/schema/  → Concepts & relationships (weekly compile)
+```
 
 ---
 
 ## Install (One Command)
 
-**In OpenClaw or Claude Code, just say:**
+**In OpenClaw or Claude Code:**
 
 ```
 Please install Second Brain from https://github.com/zhiwehu/second-brain
@@ -34,21 +96,19 @@ Save that screenshot to second brain
 Save today's meeting notes to second brain
 ```
 
-**Supported content types:**
-- Tweets / thoughts / ideas
-- Articles / links
-- Screenshots / images
-- Voice memos
-- PDFs / documents
-- Chat logs / meeting notes
-- Schedules / TODOs
+---
 
-**AI automatically:**
-- Fetches content
-- Detects type (tweet/article/image/etc)
-- Classifies using PARA (Projects/Areas/Resources/Archives)
-- Writes to knowledge base
-- Updates index and log
+## Supported Content Types
+
+| Type | Examples |
+|------|----------|
+| Tweets | Twitter posts, Weibo, short thoughts |
+| Articles | Blog posts, news, web pages |
+| Images | Screenshots, photos (EXIF extracted) |
+| Voice | Audio recordings (transcribed) |
+| Files | PDF, Word, Excel, text documents |
+| Chat | Meeting notes, chat logs |
+| Tasks | Schedules, TODOs with deadlines |
 
 ---
 
