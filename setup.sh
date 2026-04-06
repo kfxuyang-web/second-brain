@@ -1,10 +1,69 @@
 #!/bin/bash
 # setup.sh — 第二大脑安装脚本
-# 用法: ./setup.sh [--fix]
+# 用法: ./setup.sh [--fix] [--inject-only]
 
 set -e
 
 AUTO_FIX="${1:-}"
+INJECT_ONLY="${2:-}"
+
+# 如果是 --inject-only，直接运行注入然后退出
+if [ "$AUTO_FIX" = "--inject-only" ] || [ "$1" = "--inject-only" ]; then
+    PROJECT_DIR="$(cd "$(dirname "$0")" && pwd)"
+    inject_to_openclaw() {
+        OPENCLAW_MEMORY=""
+        for path in \
+            "$HOME/.openclaw/workspace/MEMORY.md" \
+            "$HOME/.claude/projects/MEMORY.md" \
+            "$HOME/MEMORY.md"
+        do
+            if [ -f "$path" ]; then
+                OPENCLAW_MEMORY="$path"
+                break
+            fi
+        done
+
+        if [ -z "$OPENCLAW_MEMORY" ]; then
+            echo "未找到 OpenClaw MEMORY.md，跳过"
+            return 0
+        fi
+
+        if grep -q "second-brain\|第二大脑" "$OPENCLAW_MEMORY" 2>/dev/null; then
+            echo "已注入过，跳过"
+            return 0
+        fi
+
+        INJECT_CONTENT="
+
+---
+
+## 🧠 第二大脑 (Second Brain)
+
+**仓库路径：** \`$PROJECT_DIR/\`
+
+当需要知识积累、内容收藏时，使用第二大脑系统。
+
+**重要：** 处理前先读取 \`$PROJECT_DIR/MEMORY.md\`（统一入口，定义完整处理流程）
+
+**使用场景：**
+- 推文/微博/灵感收集
+- 文章/链接摄入
+- 截图/图片保存
+- 语音备忘
+- 文档/文件整理
+- 聊天记录归档
+- 日程/TODO 管理
+
+**用法：** 直接把内容或链接发给 AI，说"存入第二大脑"。
+
+"
+
+        echo "$INJECT_CONTENT" >> "$OPENCLAW_MEMORY"
+        echo "已注入到 $OPENCLAW_MEMORY"
+    }
+    inject_to_openclaw
+    exit 0
+fi
 
 # 颜色
 RED='\033[0;31m'
