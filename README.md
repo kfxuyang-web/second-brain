@@ -1,6 +1,6 @@
 # Second Brain — LLM Wiki + PARA 双核驱动的个人知识库
 
-> 用 OpenClaw 或 Claude Code 打造第二大脑，让 AI 自动维护你的知识库。
+> [English README](README_EN.md) | 用 OpenClaw 或 Claude Code 打造第二大脑，让 AI 自动维护你的知识库。
 
 ## 核心理念
 
