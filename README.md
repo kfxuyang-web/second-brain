@@ -68,22 +68,6 @@ Layer 3: wiki/schema/  → Concepts & relationships (weekly compile)
 
 ---
 
-## Install (One Command)
-
-**In OpenClaw or Claude Code:**
-
-```
-Please install Second Brain from https://github.com/zhiwehu/second-brain
-```
-
-AI will automatically:
-1. Clone the repo
-2. Run the setup script
-3. Inject into your AI system
-4. Done
-
----
-
 ## How to Use
 
 After installation, just talk to AI:
@@ -181,26 +165,6 @@ Run manually when your wiki accumulates content:
 ./tools/compile_schema.sh --incremental  # compile new content only
 ./tools/compile_schema.sh --full  # full recompile
 ```
-
----
-
-## Three-Layer Architecture
-
-Second Brain uses Karpathy's LLM Wiki three-layer architecture:
-
-```
-Layer 1: Raw Sources (raw/)
-         ↓  ingest
-Layer 2: Wiki (wiki/)
-         ↓  compile (weekly)
-Layer 3: Schema (wiki/schema/)
-```
-
-| Layer | What it is | Updated |
-|-------|-----------|---------|
-| **Raw** | Original files (images/audio/tweets/articles) | Every ingest |
-| **Wiki** | Processed knowledge (summaries, PARA classification) | Every ingest |
-| **Schema** | Concepts & relationships (compiles from Wiki) | Weekly |
 
 ---
 
