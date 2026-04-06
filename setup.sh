@@ -28,11 +28,6 @@ if [ "$AUTO_FIX" = "--inject-only" ] || [ "$1" = "--inject-only" ]; then
             return 0
         fi
 
-        if grep -q "second-brain\|第二大脑" "$OPENCLAW_MEMORY" 2>/dev/null; then
-            echo "已注入过，跳过"
-            return 0
-        fi
-
         INJECT_CONTENT="
 
 ---
@@ -58,8 +53,20 @@ if [ "$AUTO_FIX" = "--inject-only" ] || [ "$1" = "--inject-only" ]; then
 
 "
 
-        echo "$INJECT_CONTENT" >> "$OPENCLAW_MEMORY"
-        echo "已注入到 $OPENCLAW_MEMORY"
+        # 检查是否已有注入（通过标记行判断）
+        if grep -q "## 🧠 第二大脑" "$OPENCLAW_MEMORY" 2>/dev/null; then
+            # 已有注入，删除旧内容，替换新内容
+            echo "发现已有注入，更新..."
+            # 用 sed 删除旧注入块（从 "## 🧠 第二大脑" 到下一个 "---"）
+            sed -i.bak '/^## 🧠 第二大脑/,/^---$/d' "$OPENCLAW_MEMORY"
+            # 追加新内容
+            echo "$INJECT_CONTENT" >> "$OPENCLAW_MEMORY"
+            echo "已更新注入内容"
+        else
+            # 无注入，直接添加
+            echo "$INJECT_CONTENT" >> "$OPENCLAW_MEMORY"
+            echo "已注入到 $OPENCLAW_MEMORY"
+        fi
     }
     inject_to_openclaw
     exit 0
