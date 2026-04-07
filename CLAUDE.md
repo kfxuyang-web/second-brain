@@ -4,15 +4,40 @@
 
 ---
 
-## 概述
+## 架构说明
 
-第二大脑 = **LLM Wiki**（增量累积）+ **PARA**（分类）
+第二大脑采用双目录架构：
 
-**核心文件**：
-- `MEMORY.md` — 入口流程（日常使用）
-- `reference.md` — 规范规则（首次阅读）
-- `process/*.md` — 7种内容类型的处理模板
-- `wiki/` — 知识库（PARA 分类索引）
+```
+second-brain-source/    # 从 GitHub clone 的源代码（你的 fork）
+├── tools/             #   工具脚本
+├── process/           #   处理模板
+├── CLAUDE.md          #   AI 配置
+├── setup.sh           #   安装脚本
+└── upgrade.sh         #   升级脚本
+
+~/second-brain/        # 你的第二大脑（你的数据，用 git 管理）
+├── .git/              #   独立 git 仓库
+├── wiki/              #   知识库（你的数据）
+├── raw/               #   原始素材（你的数据）
+└── ...                #   复制的代码文件
+```
+
+**重要：** 源代码目录和数据目录是分离的。
+
+---
+
+## 数据位置
+
+运行时从 `config.sh` 读取数据目录路径：
+
+```bash
+source "$(dirname "$0")/config.sh"
+DATA_DIR="${SECOND_BRAIN_DATA_DIR:-$HOME/second-brain}"
+```
+
+- **默认：** `${HOME}/second-brain`
+- **可配置：** 修改 `config.sh` 中的 `SECOND_BRAIN_DATA_DIR`
 
 ---
 
@@ -20,15 +45,15 @@
 
 - **projects/** — 有目标 + 截止日期
 - **areas/** — 持续责任
-- **resources/** — 感兴趣暂无行动
-- **archives/** — 已完成/放弃
+- **resources/** — 感兴趣，暂无行动
+- **archives/** — 已完成/放弃/休眠
 
 ---
 
 ## 处理流程
 
 ```
-收到内容 → MEMORY.md判断类型 → process/*.md处理 → PARA分类 → 写入wiki/{para}/ → 交叉链接 → 更新index/log
+收到内容 → MEMORY.md判断类型 → process/*.md处理 → PARA分类 → 写入$DATA_DIR/wiki/{para}/ → 交叉链接 → 更新index/log
 ```
 
 ---
@@ -50,8 +75,29 @@ tools/
 ├── fetch_content.sh      # 智能获取（URL/推文/视频）
 ├── voice_to_text.sh     # 语音转文字
 ├── extract_exif.sh       # 图片 EXIF
-└── extract_file_meta.sh # 文件元数据
+├── extract_file_meta.sh # 文件元数据
+└── init_data_repo.sh     # 初始化数据目录
 ```
+
+---
+
+## Git 管理
+
+**用户的第二大脑使用独立的 git 仓库：**
+
+```bash
+cd ~/second-brain
+git status        # 查看状态
+git add .         # 添加更改
+git commit -m '...'  # 提交
+git push          # 推送到远程
+```
+
+**源代码目录**（second-brain-source/）用于：
+- 从原作者仓库拉取更新
+- 运行升级脚本
+
+**不要** 将数据目录 push 到开源仓库！
 
 ---
 
@@ -61,4 +107,4 @@ tools/
 
 ---
 
-*Last Updated: 2026-04-06*
+*Last Updated: 2026-04-07*

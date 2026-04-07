@@ -1,12 +1,11 @@
 # 第二大脑 .gitignore
 
+# 用户私有配置（包含数据目录路径，不推送到开源仓库）
+config.sh
+
 # 操作系统
 .DS_Store
 Thumbs.db
-
-# 用户数据（重要！不推送到 Git）
-wiki/            # 用户的所有知识库内容
-raw/             # 用户的所有原始素材
 
 # 临时文件
 *.tmp
@@ -16,3 +15,8 @@ raw/             # 用户的所有原始素材
 # 敏感配置
 .env
 .env.local
+
+# 编译产物
+node_modules/
+dist/
+build/

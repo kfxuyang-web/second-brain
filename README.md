@@ -170,18 +170,46 @@ Run manually when your wiki accumulates content:
 
 ## Directory Structure
 
+Second Brain uses a dual-directory architecture:
+
 ```
-second-brain/
-├── wiki/           # Your knowledge (organized by PARA)
-│   ├── projects/   # Active projects
-│   ├── areas/     # Ongoing responsibilities
-│   ├── resources/ # Interesting topics
-│   ├── archives/  # Completed/archived
-│   └── schema/    # Layer 3: Concepts & relationships
-├── raw/            # Raw materials (images/audio/files)
-├── process/       # AI templates (don't edit)
-├── tools/         # Utilities (health check/compile/etc)
-└── CLAUDE.md      # AI config (don't edit)
+second-brain-source/    # Source code directory (cloned from GitHub)
+├── tools/             # Utility scripts
+├── process/           # AI processing templates
+├── setup.sh          # Installation script
+├── upgrade.sh        # Upgrade script
+└── CLAUDE.md         # AI config
+
+~/second-brain/        # Data directory (your second brain)
+├── .git/              # Independent git repo (manage with git)
+├── wiki/              # Your knowledge base
+│   ├── projects/      #   Active projects
+│   ├── areas/         #   Ongoing responsibilities
+│   ├── resources/     #   Interesting topics
+│   ├── archives/      #   Completed/archived
+│   └── schema/        #   Concepts & relationships
+├── raw/               # Raw materials (images/audio/files)
+└── ...                # Copied code files
+```
+
+**Key Points:**
+- `second-brain-source/` is clean source code, manage with git for your fork
+- `~/second-brain/` is your data, with independent git for your knowledge base
+- Run `setup.sh` and it automatically creates your data directory
+
+**Git Management:**
+```bash
+# Manage your data
+cd ~/second-brain
+git status
+git add .
+git commit -m 'Added new content'
+git push            # Push to your private GitHub/Gitee
+
+# Upgrade source code
+cd second-brain-source
+git fetch upstream
+./upgrade.sh
 ```
 
 ---
@@ -191,16 +219,16 @@ second-brain/
 Use **Obsidian** to visually browse your wiki:
 
 1. Open Obsidian
-2. Click "Open Vault" → select the `second-brain/` folder
+2. Click "Open Vault" → select `~/second-brain/` (your data directory)
 3. Obsidian will display all `.md` files in `wiki/`
 4. Non-markdown files (`.sh`, images in `raw/`, etc.) are automatically hidden
 
 **Recommended Obsidian plugins:**
 - **Dataview** — Query wiki data with dynamic tables
 - **Templater** — Automated templates
-- **Obsidian Git** — Auto-backup to Git
+- **Obsidian Git** — Auto-backup to Git (push to your private repo)
 
-**Tip:** Both OpenClaw/Claude Code and Obsidian work in the same `second-brain/` folder. OpenClaw manages AI processing, Obsidian provides the visual graph view.
+**Tip:** Both OpenClaw/Claude Code and Obsidian work in your data directory (`~/second-brain/`). OpenClaw manages AI processing, Obsidian provides the visual graph view.
 
 ---
 
@@ -283,13 +311,19 @@ This lets you generate slide decks directly from your accumulated knowledge.
 ## FAQ
 
 **Q: Where is my data stored?**
-A: In `wiki/` and `raw/` directories, all local, never uploaded to cloud.
+A: In `~/second-brain/wiki/` and `~/second-brain/raw/`. Your data is managed with an independent git repository, pushable to your private GitHub/Gitee.
+
+**Q: Why separate source code and data?**
+A: This way you can upgrade code without affecting your data. Source code in `second-brain-source/`, your data in `~/second-brain/`.
 
 **Q: Do I need to maintain it manually?**
-A: No. AI automatically updates index and log.
+A: No. AI automatically updates index and log. Just regularly `git push` to backup your data.
 
 **Q: How is this different from regular notes?**
 A: Second Brain automatically classifies using PARA, remembers relationships between content, and runs regular health checks.
+
+**Q: How do I upgrade?**
+A: Download the latest source to `second-brain-source/`, then run `./upgrade.sh`. Your wiki/ and raw/ data will not be lost.
 
 **Q: What is Schema and when should I compile it?**
 A: Schema is Layer 3 — it extracts concepts and relationships from your wiki content. Compile when your wiki has accumulated significant content (weekly recommended). Use `@compile` command or run `./tools/compile_schema.sh --incremental`.
@@ -305,25 +339,35 @@ If you fork this repo, you can receive updates from the original:
 ### Step 1: Fork on GitHub
 Click the "Fork" button on [github.com/zhiwehu/second-brain](https://github.com/zhiwehu/second-brain)
 
-### Step 2: Clone your fork
+### Step 2: Clone your fork to source directory
 ```bash
-git clone https://github.com/YOUR_USERNAME/second-brain.git
-cd second-brain
+git clone https://github.com/YOUR_USERNAME/second-brain.git second-brain-source
+cd second-brain-source
 ```
 
-### Step 3: Add upstream remote
+### Step 3: Run setup script
+```bash
+./setup.sh
+```
+This will:
+1. Create your data directory (`~/second-brain/`)
+2. Initialize git repo to manage your data
+3. Optional: push to your private GitHub
+
+### Step 4: Add upstream remote
 ```bash
 git remote add upstream https://github.com/zhiwehu/second-brain.git
 ```
 
-### Step 4: Upgrade
+### Step 5: Upgrade
 When updates are available, run:
 ```bash
+cd second-brain-source
 ./upgrade.sh
 ```
-This will fetch latest changes from the original repo and merge them into yours.
+This fetches latest code from original repo and overlays to your data directory. **Your wiki/ and raw/ data stays safe.**
 
-### Step 5: Contribute (optional)
+### Step 6: Contribute (optional)
 If you fix a bug or add a feature, submit a Pull Request on GitHub!
 
 ---
